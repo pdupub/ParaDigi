@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddTextView: View {
     @State private var textContent = "" // 存储输入的文字内容
     @Environment(\.dismiss) private var dismiss // 用于关闭页面
+    @Environment(\.modelContext) private var modelContext // 获取数据上下文
 
     var body: some View {
         NavigationView {
@@ -27,7 +29,7 @@ struct AddTextView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        print("Text saved: \(textContent)") // 替换为实际保存逻辑
+                        saveItem()
                         dismiss()
                     }
                     .foregroundColor(Color.primary)
@@ -42,5 +44,9 @@ struct AddTextView: View {
                 }
             }
         }
+    }
+    private func saveItem() {
+        let newItem = Item(timestamp: Date(), text: textContent) // 创建新的 Item
+        modelContext.insert(newItem) // 保存到模型上下文中
     }
 }

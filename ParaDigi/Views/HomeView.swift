@@ -6,17 +6,33 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
+    @Query(sort: \Item.timestamp, order: .reverse) private var items: [Item] // 按时间倒序排列
 
     @State private var showAddTextView = false // 控制跳转页面的状态
 
     var body: some View {
         ZStack {
-            Text("Home View")
-                .font(.largeTitle)
-                .foregroundColor(Color.primary)
+            
+            
+            NavigationView {
+                List(items) { item in
+                    VStack(alignment: .leading) {
+                        Text(item.text) // 显示保存的内容
+                            .font(.headline)
+                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .navigationTitle("Home View")
+                    .font(.largeTitle)
+                    .foregroundColor(Color.primary)
+            }
 
             // 悬浮按钮
             VStack {
