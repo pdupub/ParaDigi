@@ -21,16 +21,19 @@ struct HomeView: View {
             
             NavigationView {
                 List(items) { item in
-                    VStack(alignment: .leading) {
-                        Text(item.text) // 显示保存的内容
-                            .font(.headline)
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                    NavigationLink(destination: DetailView(item: item)) {
+                        
+                        VStack(alignment: .leading) {
+                            Text(item.text) // 显示保存的内容
+                                .font(.headline)
+                            Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
-                .navigationTitle("Home View")
-                    .font(.largeTitle)
+                .navigationTitle("Home")
+                    .font(.title)
                     .foregroundColor(Color.primary)
             }
 
