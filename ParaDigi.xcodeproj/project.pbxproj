@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36F82D3A395600909848 /* FirebaseAuth */; };
+		B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FA2D3A395600909848 /* FirebaseCore */; };
+		B8CE36FD2D3A395600909848 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FC2D3A395600909848 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B8AD61852D38CEA6004CC6D4 /* ParaDigi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParaDigi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */,
+				B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */,
+				B8CE36FD2D3A395600909848 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = ParaDigi;
 			packageProductDependencies = (
+				B8CE36F82D3A395600909848 /* FirebaseAuth */,
+				B8CE36FA2D3A395600909848 /* FirebaseCore */,
+				B8CE36FC2D3A395600909848 /* FirebaseFirestore */,
 			);
 			productName = ParaDigi;
 			productReference = B8AD61852D38CEA6004CC6D4 /* ParaDigi.app */;
@@ -94,6 +106,9 @@
 			);
 			mainGroup = B8AD617C2D38CEA6004CC6D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B8CE36F72D3A395600909848 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B8AD61862D38CEA6004CC6D4 /* Products */;
 			projectDirPath = "";
@@ -326,6 +341,28 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		B8CE36F72D3A395600909848 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../Downloads/firebase-ios-sdk-main";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B8CE36F82D3A395600909848 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAuth;
+		};
+		B8CE36FA2D3A395600909848 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseCore;
+		};
+		B8CE36FC2D3A395600909848 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B8AD617D2D38CEA6004CC6D4 /* Project object */;
 }

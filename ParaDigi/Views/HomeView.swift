@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
 
 
 struct HomeView: View {
@@ -44,6 +45,7 @@ struct HomeView: View {
                     Spacer()
                     Button(action: {
                         showAddTextView = true
+                        print("Firebase App Name: \(FirebaseApp.app()?.name ?? "No App")")
                     }) {
                         Image(systemName: "plus")
                             .font(.system(size: 24))
