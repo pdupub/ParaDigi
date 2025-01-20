@@ -60,6 +60,10 @@ struct MainView: View {
                 MessagesView()
             case .settings:
                 SettingsView()
+            case .testing:
+//                TestingView()
+//                CryptoTestView()
+                AnimateView()
             }
             Spacer()
             // Tab bar at the bottom
@@ -71,6 +75,8 @@ struct MainView: View {
                 TabButton(tab: .messages, selectedTab: $selectedTab)
                 Spacer()
                 TabButton(tab: .settings, selectedTab: $selectedTab)
+                Spacer()
+                TabButton(tab: .testing, selectedTab: $selectedTab)
             }
             .padding()
             .background(Color(UIColor.systemGray6))
@@ -83,6 +89,7 @@ enum Tab: String {
     case search = "magnifyingglass"
     case messages = "envelope.fill"
     case settings = "gearshape.fill"
+    case testing = "questionmark.circle"
 }
 
 

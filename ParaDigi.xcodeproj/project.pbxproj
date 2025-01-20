@@ -10,6 +10,8 @@
 		B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36F82D3A395600909848 /* FirebaseAuth */; };
 		B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FA2D3A395600909848 /* FirebaseCore */; };
 		B8CE36FD2D3A395600909848 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FC2D3A395600909848 /* FirebaseFirestore */; };
+		B8CE371F2D3E24A700909848 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE371E2D3E24A700909848 /* FirebaseDatabase */; };
+		B8CE37212D3E24A700909848 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE37202D3E24A700909848 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 			files = (
 				B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */,
 				B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */,
+				B8CE371F2D3E24A700909848 /* FirebaseDatabase in Frameworks */,
+				B8CE37212D3E24A700909848 /* FirebaseStorage in Frameworks */,
 				B8CE36FD2D3A395600909848 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +81,8 @@
 				B8CE36F82D3A395600909848 /* FirebaseAuth */,
 				B8CE36FA2D3A395600909848 /* FirebaseCore */,
 				B8CE36FC2D3A395600909848 /* FirebaseFirestore */,
+				B8CE371E2D3E24A700909848 /* FirebaseDatabase */,
+				B8CE37202D3E24A700909848 /* FirebaseStorage */,
 			);
 			productName = ParaDigi;
 			productReference = B8AD61852D38CEA6004CC6D4 /* ParaDigi.app */;
@@ -361,6 +367,14 @@
 		B8CE36FC2D3A395600909848 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FirebaseFirestore;
+		};
+		B8CE371E2D3E24A700909848 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseDatabase;
+		};
+		B8CE37202D3E24A700909848 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
