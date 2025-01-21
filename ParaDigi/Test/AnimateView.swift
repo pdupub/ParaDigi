@@ -10,7 +10,6 @@ import SwiftUI
 struct AnimateView: View {
     @State private var heights: [CGFloat] = [100, 150, 200, 250] // 初始高度
     private let ballDiameter: CGFloat = 30 // 球的直径
-
     var body: some View {
         VStack {
             HStack(spacing: 20) {

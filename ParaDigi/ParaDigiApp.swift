@@ -63,7 +63,8 @@ struct MainView: View {
             case .testing:
 //                TestingView()
 //                CryptoTestView()
-                AnimateView()
+//                AnimateView()
+                DatabaseTestView()
             }
             Spacer()
             // Tab bar at the bottom
@@ -79,6 +80,7 @@ struct MainView: View {
                 TabButton(tab: .testing, selectedTab: $selectedTab)
             }
             .padding()
+            .padding(.bottom, -16)
             .background(Color(UIColor.systemGray6))
         }
     }
