@@ -64,7 +64,9 @@ struct MainView: View {
 //                TestingView()
 //                CryptoTestView()
 //                AnimateView()
-                DatabaseTestView()
+//                DatabaseTestView()
+//                AvatarView()
+                CreateUserView()
             }
             Spacer()
             // Tab bar at the bottom
