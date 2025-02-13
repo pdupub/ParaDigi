@@ -12,8 +12,8 @@ import Firebase
 
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
-    @Query(sort: \Item.timestamp, order: .reverse) private var items: [Item] // 按时间倒序排列
-    
+    @Query(sort: \UnsignedQuantum.nonce, order: .forward) private var uqs: [UnsignedQuantum] // 按照nonce排序
+
     @State private var showAddTextView = false // 控制跳转页面的状态
 
     var body: some View {
@@ -21,13 +21,12 @@ struct HomeView: View {
             
             
             NavigationView {
-                List(items) { item in
-                    NavigationLink(destination: DetailView(item: item)) {
-                        
+                List(uqs) { uq in
+                    NavigationLink(destination: DetailView(uq: uq)) {
                         VStack(alignment: .leading) {
-                            Text(item.text) // 显示保存的内容
+                            Text(uq.last) // 显示保存的内容
                                 .font(.headline)
-                            Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                            Text(String(data: uq.contents![0].data!, encoding: .utf8)!)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }

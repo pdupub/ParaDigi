@@ -53,10 +53,7 @@ struct AddTextView: View {
     }
 
     private func saveItem() {
-        let newItem = Item(timestamp: Date(), text: textContent) // 创建新的 Item
-        modelContext.insert(newItem) // 保存到模型上下文中
-//        
-        
+
         // 添加数据
         let newContent = QContent(data: AnyCodable(textContent), format: "txt")
         modelContext.insert(newContent)

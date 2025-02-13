@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct DetailView: View {
-    let item: Item // 接收选中的 Item
+    let uq: UnsignedQuantum // 接收选中的 Item
 
     var body: some View {
         VStack {
-            Text(item.text) // 展示文字内容
+            Text(String(data: uq.contents![0].data!, encoding: .utf8)!)
                 .font(.title)
                 .padding()
                 .multilineTextAlignment(.leading) // 多行文字对齐

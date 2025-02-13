@@ -26,7 +26,6 @@ struct ParaDigiApp: App {
     var sharedModelContainer: ModelContainer = {
 
         let schema = Schema([
-            Item.self,
             QContent.self,
             UnsignedQuantum.self,
             SignedQuantum.self
@@ -68,8 +67,7 @@ struct MainView: View {
 //                CryptoTestView()
 //                AnimateView()
 //                AvatarView()
-//                CreateUserView()
-                DisplayQuantumView()
+                CreateUserView()
             }
             Spacer()
             // Tab bar at the bottom
