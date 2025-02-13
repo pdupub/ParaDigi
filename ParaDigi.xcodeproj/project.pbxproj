@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B87B10A62D5DD58400E97F03 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = B87B10A52D5DD58400E97F03 /* SQLite */; };
 		B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36F82D3A395600909848 /* FirebaseAuth */; };
 		B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FA2D3A395600909848 /* FirebaseCore */; };
 		B8CE36FD2D3A395600909848 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FC2D3A395600909848 /* FirebaseFirestore */; };
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B87B10A62D5DD58400E97F03 /* SQLite in Frameworks */,
 				B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */,
 				B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */,
 				B8CE371F2D3E24A700909848 /* FirebaseDatabase in Frameworks */,
@@ -83,6 +85,7 @@
 				B8CE36FC2D3A395600909848 /* FirebaseFirestore */,
 				B8CE371E2D3E24A700909848 /* FirebaseDatabase */,
 				B8CE37202D3E24A700909848 /* FirebaseStorage */,
+				B87B10A52D5DD58400E97F03 /* SQLite */,
 			);
 			productName = ParaDigi;
 			productReference = B8AD61852D38CEA6004CC6D4 /* ParaDigi.app */;
@@ -114,6 +117,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B8CE36F72D3A395600909848 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */,
+				B87B10A42D5DD58400E97F03 /* XCLocalSwiftPackageReference "../../Downloads/SQLite.swift-0.15.3" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B8AD61862D38CEA6004CC6D4 /* Products */;
@@ -349,6 +353,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		B87B10A42D5DD58400E97F03 /* XCLocalSwiftPackageReference "../../Downloads/SQLite.swift-0.15.3" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../Downloads/SQLite.swift-0.15.3";
+		};
 		B8CE36F72D3A395600909848 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../Downloads/firebase-ios-sdk-main";
@@ -356,6 +364,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B87B10A52D5DD58400E97F03 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SQLite;
+		};
 		B8CE36F82D3A395600909848 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FirebaseAuth;
