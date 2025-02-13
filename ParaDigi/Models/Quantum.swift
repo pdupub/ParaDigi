@@ -14,8 +14,18 @@ class UnsignedQuantum {
     var contents: [QContent]?
     var last: String
     var nonce: Int
-    var references: [String]
+    var referencesData: Data? // ⚠️ 存储为 Data
     var type: Int?
+
+    var references: [String] {
+        get {
+            guard let data = referencesData else { return [] }
+            return (try? JSONDecoder().decode([String].self, from: data)) ?? []
+        }
+        set {
+            referencesData = try? JSONEncoder().encode(newValue)
+        }
+    }
 
     init(contents: [QContent]?, last: String, nonce: Int, references: [String], type: Int?) {
         self.contents = contents
@@ -25,9 +35,6 @@ class UnsignedQuantum {
         self.type = type
     }
 }
-
-
-
 
 @Model
 class SignedQuantum {
