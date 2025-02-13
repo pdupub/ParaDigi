@@ -55,5 +55,13 @@ struct AddTextView: View {
     private func saveItem() {
         let newItem = Item(timestamp: Date(), text: textContent) // 创建新的 Item
         modelContext.insert(newItem) // 保存到模型上下文中
+//        
+        
+        // 添加数据
+        let newContent = QContent(data: AnyCodable(textContent), format: "txt")
+        modelContext.insert(newContent)
+
+        let newQuantum = UnsignedQuantum(contents: [newContent], last: "0x12345", nonce: 123, references: ["0x5678"], type: 1)
+        modelContext.insert(newQuantum)
     }
 }

@@ -13,7 +13,7 @@ import Firebase
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
     @Query(sort: \Item.timestamp, order: .reverse) private var items: [Item] // 按时间倒序排列
-
+    
     @State private var showAddTextView = false // 控制跳转页面的状态
 
     var body: some View {
@@ -36,8 +36,11 @@ struct HomeView: View {
                 .navigationTitle("Home")
                     .font(.title)
                     .foregroundColor(Color.primary)
+                
             }
 
+            
+            
             // 悬浮按钮
             VStack {
                 Spacer()
