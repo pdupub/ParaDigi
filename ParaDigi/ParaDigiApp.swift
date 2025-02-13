@@ -64,7 +64,6 @@ struct MainView: View {
 //                TestingView()
 //                CryptoTestView()
 //                AnimateView()
-//                DatabaseTestView()
 //                AvatarView()
                 CreateUserView()
             }

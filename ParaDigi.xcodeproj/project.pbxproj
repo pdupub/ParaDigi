@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B87B10A62D5DD58400E97F03 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = B87B10A52D5DD58400E97F03 /* SQLite */; };
+		B88632E92D5DDD1400950853 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE37202D3E24A700909848 /* FirebaseStorage */; };
 		B8C44B362D5DD99E00824AF1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B8C44B352D5DD99E00824AF1 /* FirebaseStorage */; };
 		B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36F82D3A395600909848 /* FirebaseAuth */; };
 		B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = B8CE36FA2D3A395600909848 /* FirebaseCore */; };
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B87B10A62D5DD58400E97F03 /* SQLite in Frameworks */,
+				B88632E92D5DDD1400950853 /* FirebaseStorage in Frameworks */,
 				B8CE36FB2D3A395600909848 /* FirebaseCore in Frameworks */,
 				B8CE36F92D3A395600909848 /* FirebaseAuth in Frameworks */,
 				B8CE371F2D3E24A700909848 /* FirebaseDatabase in Frameworks */,
@@ -118,7 +118,6 @@
 			mainGroup = B8AD617C2D38CEA6004CC6D4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B8C44AFC2D5DD7F800824AF1 /* XCLocalSwiftPackageReference "../../Downloads/SQLite.swift-0.15.3" */,
 				B8C44B2C2D5DD99E00824AF1 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -355,10 +354,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		B8C44AFC2D5DD7F800824AF1 /* XCLocalSwiftPackageReference "../../Downloads/SQLite.swift-0.15.3" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../Downloads/SQLite.swift-0.15.3";
-		};
 		B8C44B2C2D5DD99E00824AF1 /* XCLocalSwiftPackageReference "../../Downloads/firebase-ios-sdk-main" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../Downloads/firebase-ios-sdk-main";
