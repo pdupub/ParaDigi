@@ -11,6 +11,7 @@ import Firebase
 
 
 struct HomeView: View {
+
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
     @Query(sort: \UnsignedQuantum.nonce, order: .forward) private var uqs: [UnsignedQuantum] // 按照nonce排序
 

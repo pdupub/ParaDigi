@@ -26,6 +26,9 @@ class UnsignedQuantum {
     }
 }
 
+
+
+
 @Model
 class SignedQuantum {
     @Attribute(.unique) var id: UUID = UUID()

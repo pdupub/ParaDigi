@@ -2,10 +2,10 @@ import SwiftUI
 import SwiftData
 
 struct AddTextView: View {
-    @State private var textContent = "" // 存储输入的文字内容
     @Environment(\.dismiss) private var dismiss // 用于关闭页面
     @Environment(\.modelContext) private var modelContext // 获取数据上下文
     @FocusState private var isFocused: Bool // 控制焦点状态
+    @StateObject private var viewModel = AddTextViewModel()
 
     var body: some View {
         NavigationView {
@@ -20,7 +20,7 @@ struct AddTextView: View {
                         .clipShape(Circle()) // 圆形头像
 
                     // TextEditor 输入框
-                    TextEditor(text: $textContent)
+                    TextEditor(text: $viewModel.textContent)
                         .padding()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .focused($isFocused) // 绑定焦点状态
@@ -32,12 +32,13 @@ struct AddTextView: View {
             .onAppear {
                 // 当视图出现时，自动使 TextEditor 获取焦点
                 isFocused = true
+                viewModel.setModelContext(modelContext: modelContext)
             }
             .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
-                        saveItem()
+                        viewModel.saveItem()
                         dismiss()
                     }
                     .foregroundColor(Color.primary)
@@ -52,13 +53,4 @@ struct AddTextView: View {
         }
     }
 
-    private func saveItem() {
-
-        // 添加数据
-        let newContent = QContent(data: AnyCodable(textContent), format: "txt")
-        modelContext.insert(newContent)
-
-        let newQuantum = UnsignedQuantum(contents: [newContent], last: "0x12345", nonce: 123, references: ["0x5678"], type: 1)
-        modelContext.insert(newQuantum)
-    }
 }
