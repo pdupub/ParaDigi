@@ -130,8 +130,8 @@ struct CreateUserView: View {
     
     // 生成随机头像
     private func generateRandomImage() {
-        randomImage = generateRandomBlockImage(size: CGSize(width: 200, height: 200), blocks: 10)
-        base64ImageString = imageToBase64(image: randomImage!)
+        randomImage = ImageUtilities.generateRandomBlockImage(size: CGSize(width: 200, height: 200), blocks: 10)
+        base64ImageString = ImageUtilities.imageToBase64(image: randomImage!)
     }
     
     // 使用 CompatibleCrypto.swift 生成私钥和地址
