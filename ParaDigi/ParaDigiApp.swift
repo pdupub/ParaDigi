@@ -57,7 +57,7 @@ struct MainView: View {
             // Main content changes based on the selected tab
             switch selectedTab {
             case .home:
-                HomeView()
+                HomeFeedView()
             case .search:
                 SearchView()
             case .messages:
@@ -69,7 +69,8 @@ struct MainView: View {
 //                CryptoTestView()
 //                AnimateView()
 //                AvatarView()
-                CreateUserView()
+//                SignUpView()
+                PrivateKeyLoginView()
             }
             Spacer()
             // Tab bar at the bottom

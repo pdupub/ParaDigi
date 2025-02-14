@@ -10,7 +10,7 @@ import SwiftData
 import Firebase
 
 
-struct HomeView: View {
+struct HomeFeedView: View {
 
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
     @Query(sort: \UnsignedQuantum.nonce, order: .forward) private var uqs: [UnsignedQuantum] // 按照nonce排序
@@ -23,7 +23,7 @@ struct HomeView: View {
             
             NavigationView {
                 List(uqs) { uq in
-                    NavigationLink(destination: DetailView(uq: uq)) {
+                    NavigationLink(destination: PostDetailView(uq: uq)) {
                         VStack(alignment: .leading) {
                             Text(uq.last) // 显示保存的内容
                                 .font(.headline)
@@ -64,7 +64,7 @@ struct HomeView: View {
             }
         }
         .sheet(isPresented: $showAddTextView) {
-            AddTextView() // 弹出输入页面
+            PostContentView() // 弹出输入页面
         }
     }
 }

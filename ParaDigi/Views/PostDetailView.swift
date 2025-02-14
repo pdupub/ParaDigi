@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailView: View {
+struct PostDetailView: View {
     let uq: UnsignedQuantum // 接收选中的 Item
 
     var body: some View {

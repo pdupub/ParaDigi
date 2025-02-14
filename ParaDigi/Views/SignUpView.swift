@@ -11,7 +11,7 @@ import UIKit
 // 假设 CompatibleCrypto.swift 中提供的方法
 //import CompatibleCrypto
 
-struct CreateUserView: View {
+struct SignUpView: View {
     @State private var randomImage: UIImage?
     @State private var base64ImageString: String?
     @State private var privateKey: String?
