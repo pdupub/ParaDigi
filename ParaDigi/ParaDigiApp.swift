@@ -63,7 +63,7 @@ struct MainView: View {
             case .settings:
                 SettingsView()
             case .testing:
-//                TestingView()
+//                FBTestingView()
 //                CryptoTestView()
 //                AnimateView()
 //                AvatarView()

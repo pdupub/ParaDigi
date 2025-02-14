@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 
-struct TestingView: View {
+struct FBTestingView: View {
     @State private var email = "" // 存储用户输入的 Email
     @State private var password = "" // 存储用户输入的 Password
     @State private var errorMessage = "" // 显示错误信息
