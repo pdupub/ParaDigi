@@ -127,7 +127,7 @@ struct SignUpView: View {
     
     // 生成随机头像
     private func generateRandomImage() {
-        randomImage = ImageUtilities.generateRandomBlockImage(size: CGSize(width: 200, height: 200), blocks: 10)
+        randomImage = ImageUtilities.generateRandomAvatarImage()
         base64ImageString = ImageUtilities.imageToBase64(image: randomImage!)
     }
     

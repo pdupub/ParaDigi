@@ -39,7 +39,7 @@ struct AvatarView: View {
         }
         .onAppear {
             // 在视图出现时生成图像
-            if let image = ImageUtilities.generateRandomBlockImage(size: CGSize(width: 200, height: 200), blocks: 10) {
+            if let image = ImageUtilities.generateRandomAvatarImage() {
                 generatedImage = image
                 base64ImageString = ImageUtilities.imageToBase64(image: image) // 获取图像的 Base64 字符串
             }
