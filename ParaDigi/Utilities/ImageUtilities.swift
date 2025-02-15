@@ -12,7 +12,6 @@ struct ImageUtilities {
     static func generateRandomAvatarImage() -> UIImage? {
         let sideLen = CGFloat(512)
         let size = CGSize(width: sideLen, height: sideLen)
-        let blocks = 10
         
         // 创建一个图形上下文
         UIGraphicsBeginImageContextWithOptions(size, false, 0)

@@ -181,14 +181,34 @@ struct SignUpView: View {
                 // 如果只填写了 key 或 value，提示用户填写另一框
                 if key.isEmpty || value.isEmpty {
                     let missingField = key.isEmpty ? "key" : "value"
-                    errorMessages.append("Please complete the \(missingField) (Line \(index + 1))")                }
+                    errorMessages.append("Please complete the \(missingField) (Line \(index + 1))")
+                }
             }
         }
-//        // 在这里处理创建用户的逻辑
-//        print("用户创建成功")
-//        print("昵称：\(nickname)")
-//        print("私钥：\(privateKey ?? "无私钥")")
-//        print("地址：\(address ?? "无地址")")
+        errorMessages.reverse()
+       
+        if errorMessages.isEmpty {
+            var contents:[QContent] = [
+                QContent(data: AnyCodable("avatar"), format: "str"), // Key
+                QContent(data: AnyCodable(base64ImageString!), format: "base64") // Value
+            ]
+            for index in (0..<keyValuePairs.count) {
+                let (key, value) = keyValuePairs[index]
+                contents.append(QContent(data: AnyCodable(key), format: "str")) // Key
+                contents.append(QContent(data: AnyCodable(value), format: "str")) // Key
+            }
+            
+            let last = ""
+            let nonce = 1
+            let references: [String] = []
+            let type: Int = 1
+
+            // 创建 UnsignedQuantum 对象
+            let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
+//            let jsonString = unsignedQuantum.toJsonString()
+//            print(jsonString)
+        }
+
     }
 }
 

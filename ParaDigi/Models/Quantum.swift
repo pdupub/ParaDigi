@@ -9,7 +9,7 @@ import SwiftData
 import Foundation
 
 @Model
-class UnsignedQuantum {
+class UnsignedQuantum{
     @Attribute(.unique) var id: UUID = UUID()
     var contents: [QContent]?
     var last: String
