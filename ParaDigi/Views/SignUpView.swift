@@ -19,7 +19,7 @@ struct SignUpView: View {
     
     @State private var isCopiedAddress = false
     @State private var isCopiedPrivateKey = false
-    
+    @State private var errorMessages: [String] = []
     var body: some View {
         VStack {
             // 头像区域
@@ -82,6 +82,8 @@ struct SignUpView: View {
             }
             .padding()
             
+            
+   
             // 动态增加键值对输入框
             VStack {
                 ForEach(0..<keyValuePairs.count, id: \.self) { index in
@@ -105,7 +107,12 @@ struct SignUpView: View {
             }
             
             Spacer()
-            
+            // 显示错误信息
+            ForEach(errorMessages, id: \.self) { message in
+                Text(message)
+                    .foregroundColor(.red)
+                    .padding(.top, 5)
+            }
             // 创建用户按钮
             Button("Create User") {
                 createUser()
@@ -162,11 +169,26 @@ struct SignUpView: View {
     
     // 创建用户的业务逻辑
     private func createUser() {
-        // 在这里处理创建用户的逻辑
-        print("用户创建成功")
-        print("昵称：\(nickname)")
-        print("私钥：\(privateKey ?? "无私钥")")
-        print("地址：\(address ?? "无地址")")
+        errorMessages.removeAll()  // 清空之前的错误信息
+
+        for index in (0..<keyValuePairs.count).reversed() {  // 使用 reversed 遍历，以防删除时出错
+            let (key, value) = keyValuePairs[index]
+            
+            // 如果 key 和 value 都为空，删除该行
+            if key.isEmpty && value.isEmpty {
+                keyValuePairs.remove(at: index)
+            } else {
+                // 如果只填写了 key 或 value，提示用户填写另一框
+                if key.isEmpty || value.isEmpty {
+                    let missingField = key.isEmpty ? "key" : "value"
+                    errorMessages.append("Please complete the \(missingField) (Line \(index + 1))")                }
+            }
+        }
+//        // 在这里处理创建用户的逻辑
+//        print("用户创建成功")
+//        print("昵称：\(nickname)")
+//        print("私钥：\(privateKey ?? "无私钥")")
+//        print("地址：\(address ?? "无地址")")
     }
 }
 
