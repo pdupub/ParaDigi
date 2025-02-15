@@ -20,17 +20,26 @@ struct SplashScreenView: View {
                         .edgesIgnoringSafeArea(.all) // 背景色
 
                     VStack {
-                        Image(systemName: "app.fill") // 可以替换为自定义 logo
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(.white)
-                            .padding()
-
-                        Text("Welcome to ParaDigi")
-                            .font(.largeTitle)
+//                        Image(systemName: "app.fill") // 可以替换为自定义 logo
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 100, height: 100)
+//                            .foregroundColor(.white)
+//                            .padding()
+                        
+                        Text("ParaDigi")
+                            .font(.system(size: 64, weight: .black))
+                            .foregroundStyle(.white)
+                        
+                        Text("Welcome to Our World")
+                            .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
+                    }
+                }
+                .onTapGesture {
+                    withAnimation {
+                        isActive = true
                     }
                 }
                 .onAppear {
