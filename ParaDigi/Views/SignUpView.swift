@@ -207,6 +207,12 @@ struct SignUpView: View {
             let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
 //            let jsonString = unsignedQuantum.toJsonString()
 //            print(jsonString)
+            
+            if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    print("Encoded JSON: \(jsonString)")
+                }
+            }
         }
 
     }
