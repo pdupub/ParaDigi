@@ -15,7 +15,7 @@ struct SignUpView: View {
     @State private var address: String?
     @State private var isPrivateKeyVisible = false
     @State private var nickname: String = ""
-    @State private var keyValuePairs: [(key: String, value: String)] = [("", "")]
+    @State private var keyValuePairs: [(key: String, value: String)] = [("Nickname",""),("", "")]
     
     @State private var isCopiedAddress = false
     @State private var isCopiedPrivateKey = false
@@ -33,7 +33,7 @@ struct SignUpView: View {
                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
                         .shadow(radius: 10)
                 } else {
-                    Text("生成头像中...")
+                    Text("Avatar building...")
                 }
                 
                 // 右侧按钮，重新生成头像
@@ -47,7 +47,7 @@ struct SignUpView: View {
 
             // 显示地址
             HStack {
-                Text("地址: \(address ?? "生成中...")")
+                Text("Address: \(address ?? "building...")")
                     .lineLimit(1)
                     .truncationMode(.middle)
                 
@@ -58,11 +58,11 @@ struct SignUpView: View {
                         .padding(.leading)
                 }
             }
-            .padding()
+            .padding(.horizontal)
 
             // 显示私钥
             HStack {
-                Text(isPrivateKeyVisible ? privateKey ?? "生成中..." : String(repeating: "*", count: privateKey?.count ?? 0))
+                Text("Private Key: \(isPrivateKeyVisible ? privateKey ?? "building..." : String(repeating: "*", count: privateKey?.count ?? 0))")
                     .lineLimit(1)
                     .truncationMode(.middle)
                 
@@ -81,11 +81,6 @@ struct SignUpView: View {
                 }
             }
             .padding()
-
-            // 昵称输入框
-            TextField("请输入昵称", text: $nickname)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
             
             // 动态增加键值对输入框
             VStack {
@@ -97,7 +92,7 @@ struct SignUpView: View {
                         TextField("Value", text: $keyValuePairs[index].value)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
-                    .padding(.vertical, 5)
+//                    .padding()
                 }
             }
             
@@ -108,6 +103,8 @@ struct SignUpView: View {
                     .foregroundColor(.blue)
                     .padding(.top)
             }
+            
+            Spacer()
             
             // 创建用户按钮
             Button("Create User") {
