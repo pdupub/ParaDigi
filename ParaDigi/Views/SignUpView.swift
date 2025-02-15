@@ -6,10 +6,7 @@
 //
 
 import SwiftUI
-import UIKit
 
-// 假设 CompatibleCrypto.swift 中提供的方法
-//import CompatibleCrypto
 
 struct SignUpView: View {
     @State private var randomImage: UIImage?

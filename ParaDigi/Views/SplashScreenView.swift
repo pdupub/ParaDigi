@@ -9,11 +9,16 @@ import SwiftUI
 
 struct SplashScreenView: View {
     @State private var isActive = false
+    @State private var showRegisterScreen = false
 
     var body: some View {
         Group {
             if isActive {
-                MainView() // 主界面视图
+                if showRegisterScreen {
+                    SignUpView()
+                } else {
+                    MainView() // 主界面视图
+                }
             } else {
                 ZStack {
                     Color.blue
@@ -39,19 +44,32 @@ struct SplashScreenView: View {
                 }
                 .onTapGesture {
                     withAnimation {
-                        isActive = true
+                        checkPrivateKeyInKeychain()
                     }
                 }
                 .onAppear {
                     // 延迟 3 秒后跳转到主界面
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         withAnimation {
-                            isActive = true
+                            checkPrivateKeyInKeychain()
                         }
                     }
                 }
             }
         }
+    }
+    
+    // 检查Keychain中是否存在私钥
+    private func checkPrivateKeyInKeychain() {
+        if let _ = KeychainHelper.load(key: "userPrivateKey") {
+            // 如果Keychain中存在私钥，跳转到主页面
+            showRegisterScreen = false
+        } else {
+            // 如果Keychain中不存在私钥，跳转到注册页面
+            showRegisterScreen = true
+        }
+        
+        isActive = true
     }
 }
 
