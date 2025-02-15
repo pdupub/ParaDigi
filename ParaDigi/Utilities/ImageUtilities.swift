@@ -67,8 +67,23 @@ struct ImageUtilities {
         let diffX = CGFloat.random(in: -eyeWidth...0)
         context.fill(CGRect(x: x + (blockWidth/5) + diffX, y: eyeY, width: eyeWidth, height: eyeHeight))
         context.fill(CGRect(x: x + (blockWidth * 0.8) + diffX, y:eyeY, width: eyeWidth, height: eyeHeight))
-        // 头发
         
+        // 头发
+        let loopNum = Int.random(in: 4...10)
+        r = CGFloat.random(in: 0...1)
+        let g = CGFloat.random(in: 0...(1-r))
+        let b = CGFloat.random(in: 0...(1-r-g))
+        
+        for _ in 1...loopNum{
+            randomColor = UIColor(
+                    red: r,
+                    green: g,
+                    blue: b,
+                    alpha: CGFloat.random(in: 0.75...0.9)
+                )
+            context.setFillColor(randomColor.cgColor)
+            context.fill(CGRect(x:x+((blockWidth/4)*CGFloat.random(in: -1...4)),y:y - ((blockHeight/20)*CGFloat.random(in: 2...8)),width: (blockWidth/CGFloat.random(in: 1...2.5)), height: (blockHeight/CGFloat.random(in: 2...4))))
+        }
         
         // 从上下文中生成图像
         let image = UIGraphicsGetImageFromCurrentImageContext()
