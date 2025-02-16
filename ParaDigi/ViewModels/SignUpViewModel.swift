@@ -124,6 +124,10 @@ class SignUpViewModel: ObservableObject {
                     print("Verify Signature: \(isVerify)")
                     
                     self.quantumManager.publishQuantum(signedQuantum, modelContext: modelContext)
+                    
+                    if let tmpRes = self.quantumManager.getSignerWithMaxNonce(signer: address!, modelContext: modelContext){
+                        print("query result nonce: \(tmpRes.unsignedQuantum.nonce)")
+                    }
                 }
             }
         }
