@@ -14,19 +14,9 @@ class UnsignedQuantum: Identifiable, Encodable {
     var contents: [QContent]?
     var last: String
     var nonce: Int
-    var referencesData: Data? // ⚠️ 存储为 Data
+    var references: [String] 
     var type: Int?
 
-    // 存储 references 数组为 Data 类型
-    var references: [String] {
-        get {
-            guard let data = referencesData else { return [] }
-            return (try? JSONDecoder().decode([String].self, from: data)) ?? []
-        }
-        set {
-            referencesData = try? JSONEncoder().encode(newValue)
-        }
-    }
 
     init(contents: [QContent]?, last: String, nonce: Int, references: [String], type: Int?) {
         self.contents = contents
@@ -45,12 +35,8 @@ class UnsignedQuantum: Identifiable, Encodable {
         try container.encode(last, forKey: .last)
         try container.encode(nonce, forKey: .nonce)
         try container.encode(type, forKey: .type)
+        try container.encode(references, forKey: .references)
         
-        // 编码 references 字段时，先解码为字符串数组后进行编码
-        if let _ = self.referencesData {
-//            try container.encode(referencesData, forKey: .referencesData)
-            try container.encode(references, forKey: .references)
-        }
     }
     
     // 定义 CodingKeys
