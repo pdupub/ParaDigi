@@ -5,7 +5,7 @@ struct PostContentView: View {
     @Environment(\.dismiss) private var dismiss // 用于关闭页面
     @Environment(\.modelContext) private var modelContext // 获取数据上下文
     @FocusState private var isFocused: Bool // 控制焦点状态
-    @StateObject private var viewModel = AddTextViewModel()
+    @StateObject private var viewModel = PostContentViewModel()
 
     var body: some View {
         NavigationView {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpView: View {
     @StateObject private var viewModel = SignUpViewModel()
+    @Environment(\.modelContext) private var modelContext // 获取数据上下文
 
     var body: some View {
         VStack {
@@ -47,6 +48,10 @@ struct SignUpView: View {
                         .foregroundColor(.blue)
                         .padding(.leading)
                 }
+            }
+            .onAppear {
+                // 当视图出现时，自动使 TextEditor 获取焦点
+                viewModel.setModelContext(modelContext: modelContext)
             }
             .padding(.horizontal)
 

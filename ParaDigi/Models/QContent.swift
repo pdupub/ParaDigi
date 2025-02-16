@@ -13,6 +13,7 @@ class QContent: Identifiable, Encodable {
     var data: Data? // 存储 AnyCodable 为 Data 格式
     var format: String
     
+    
     // 存储 AnyCodable 对象并将其转换为 Data 格式
     init(data: AnyCodable, format: String) {
         self.format = format

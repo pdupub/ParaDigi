@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 class SignUpViewModel: ObservableObject {
     @Published var randomImage: UIImage?
@@ -19,7 +19,17 @@ class SignUpViewModel: ObservableObject {
     @Published var isPrivateKeyVisible = false
     @Published var isCopiedAddress = false
     @Published var isCopiedPrivateKey = false
+    
+    private var modelContext: ModelContext? // 直接持有 modelContext
+    private var quantumManager: QuantumManager
 
+    init() {
+        self.quantumManager = QuantumManager()
+    }
+    
+    func setModelContext(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
     // 生成随机头像
     func generateRandomImage() {
         randomImage = ImageUtilities.generateRandomAvatarImage()
@@ -112,6 +122,8 @@ class SignUpViewModel: ObservableObject {
                     
                     let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
                     print("Verify Signature: \(isVerify)")
+                    
+//                    self.quantumManager.publishQuantum(signedQuantum, modelContext: modelContext)
                 }
             }
         }
