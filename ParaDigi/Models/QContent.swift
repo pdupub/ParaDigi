@@ -10,20 +10,22 @@ import Foundation
 @Model
 class QContent: Identifiable, Encodable {
     @Attribute(.unique) var id: UUID = UUID()  // 确保每条数据唯一
-    var data: Data? // 存储 AnyCodable 为 Data 格式
+    var data: String? // 将 Data 转换为 String 类型存储
     var format: String
     
-    
-    // 存储 AnyCodable 对象并将其转换为 Data 格式
+    // 存储 AnyCodable 对象并将其转换为字符串格式
     init(data: AnyCodable, format: String) {
         self.format = format
-        self.data = try? JSONEncoder().encode(data)
+        self.data = try? JSONEncoder().encode(data).base64EncodedString()  // 将 Data 转为 Base64 字符串
     }
 
     // 解码 `data` 为 AnyCodable
     func getDecodedData() -> AnyCodable? {
         guard let data = self.data else { return nil }
-        return try? JSONDecoder().decode(AnyCodable.self, from: data)
+        if let decodedData = Data(base64Encoded: data) {
+            return try? JSONDecoder().decode(AnyCodable.self, from: decodedData)
+        }
+        return nil
     }
 
     // 实现 Encodable 协议

@@ -27,7 +27,7 @@ struct HomeFeedView: View {
                         VStack(alignment: .leading) {
                             Text(uq.last) // 显示保存的内容
                                 .font(.headline)
-                            Text(String(data: uq.contents![0].data!, encoding: .utf8)!)
+                            Text( uq.contents![0].data!)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }

@@ -106,7 +106,7 @@ class SignUpViewModel: ObservableObject {
             let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
             if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
-
+                    print(jsonString)
                     guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
                     let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
                     let signature = signatureData.map { String(format: "%02x", $0) }.joined()
@@ -123,7 +123,7 @@ class SignUpViewModel: ObservableObject {
                     let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
                     print("Verify Signature: \(isVerify)")
                     
-//                    self.quantumManager.publishQuantum(signedQuantum, modelContext: modelContext)
+                    self.quantumManager.publishQuantum(signedQuantum, modelContext: modelContext)
                 }
             }
         }

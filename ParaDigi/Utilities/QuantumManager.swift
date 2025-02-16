@@ -17,21 +17,15 @@ class QuantumManager {
         saveQuantumToLocal(quantum, modelContext: modelContext)
         
         // 发送 Quantum 到 Firebase
-        sendQuantumToFirebase(quantum)
+//        sendQuantumToFirebase(quantum)
     }
 
     // 保存 Quantum 到本地 SwiftData
     private func saveQuantumToLocal(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
         // SwiftData 存储逻辑
         guard let modelContext = modelContext else { return }
-//        modelContext.insert(quantum)
-        
-        if let cs = quantum.unsignedQuantum.contents {
-            if cs.count > 0 {
-                modelContext.insert(cs[0])
-
-            }
-        }
+        modelContext.insert(quantum)
+ 
     }
 
     // 发送 Quantum 到 Firebase

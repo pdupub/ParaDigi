@@ -12,7 +12,7 @@ struct PostDetailView: View {
 
     var body: some View {
         VStack {
-            Text(String(data: uq.contents![0].data!, encoding: .utf8)!)
+            Text(uq.contents![0].data!)
                 .font(.title)
                 .padding()
                 .multilineTextAlignment(.leading) // 多行文字对齐
