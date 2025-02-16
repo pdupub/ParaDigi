@@ -205,12 +205,24 @@ struct SignUpView: View {
 
             // 创建 UnsignedQuantum 对象
             let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
-//            let jsonString = unsignedQuantum.toJsonString()
-//            print(jsonString)
-            
             if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    print("Encoded JSON: \(jsonString)")
+
+                    guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
+                    let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
+                    let signature = signatureData.map { String(format: "%02x", $0) }.joined()
+                    let signedQuantum = SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
+                    
+                    if let signedData = try? JSONEncoder().encode(signedQuantum) {
+                        if let signedString = String(data:signedData, encoding: .utf8) {
+                            print("Encoded JSON: \(signedString)")
+                        }
+                    }
+
+                    let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
+                    
+                    let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
+                    print("Verify Signature: \(isVerify)")
                 }
             }
         }

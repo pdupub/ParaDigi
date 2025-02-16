@@ -48,4 +48,22 @@ struct CompatibleCrypto {
         }
         return publicKeyKey.isValidSignature(ecdsaSignature, for: message)
     }
+    
+    // 从字符串生成私钥
+    static func generatePrivateKey(fromString string: String) -> Data? {
+        // 将字符串转换为 Data
+        guard let data = string.data(using: .utf8) else {
+            return nil
+        }
+        
+        // 确保字符串长度为 32 字节，不足的部分用 0 填充
+        var privateKey = data
+        if privateKey.count < 32 {
+            privateKey.append(contentsOf: [UInt8](repeating: 0, count: 32 - privateKey.count))
+        } else if privateKey.count > 32 {
+            privateKey = privateKey.prefix(32)
+        }
+        
+        return privateKey
+    }
 }

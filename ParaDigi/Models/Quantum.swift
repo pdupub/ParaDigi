@@ -47,7 +47,7 @@ class UnsignedQuantum: Identifiable, Encodable {
         try container.encode(type, forKey: .type)
         
         // 编码 references 字段时，先解码为字符串数组后进行编码
-        if let referencesData = self.referencesData {
+        if let _ = self.referencesData {
 //            try container.encode(referencesData, forKey: .referencesData)
             try container.encode(references, forKey: .references)
         }
@@ -59,7 +59,7 @@ class UnsignedQuantum: Identifiable, Encodable {
     }
 }
 @Model
-class SignedQuantum {
+class SignedQuantum: Identifiable, Encodable {
     @Attribute(.unique) var id: UUID = UUID()
     var unsignedQuantum: UnsignedQuantum
     var signature: String?
@@ -69,5 +69,21 @@ class SignedQuantum {
         self.unsignedQuantum = unsignedQuantum
         self.signature = signature
         self.signer = signer
+    }
+    
+    // 实现 Encodable 协议
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        // 编码其他属性
+        try container.encode(unsignedQuantum, forKey: .unsignedQuantum)
+        try container.encode(signature, forKey: .signature)
+        try container.encode(signer, forKey: .signer)
+
+    }
+    
+    // 定义 CodingKeys
+    private enum CodingKeys: String, CodingKey {
+        case unsignedQuantum, signature, signer
     }
 }
