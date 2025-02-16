@@ -48,13 +48,14 @@ class UnsignedQuantum: Identifiable, Encodable {
         
         // 编码 references 字段时，先解码为字符串数组后进行编码
         if let referencesData = self.referencesData {
-            try container.encode(referencesData, forKey: .referencesData)
+//            try container.encode(referencesData, forKey: .referencesData)
+            try container.encode(references, forKey: .references)
         }
     }
     
     // 定义 CodingKeys
     private enum CodingKeys: String, CodingKey {
-        case contents, last, nonce, referencesData, type
+        case contents, last, nonce, references, type
     }
 }
 @Model

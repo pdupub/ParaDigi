@@ -15,7 +15,7 @@ struct SignUpView: View {
     @State private var address: String?
     @State private var isPrivateKeyVisible = false
     @State private var nickname: String = ""
-    @State private var keyValuePairs: [(key: String, value: String)] = [("Nickname",""),("", "")]
+    @State private var keyValuePairs: [(key: String, value: String)] = [("nickname",""),("", "")]
     
     @State private var isCopiedAddress = false
     @State private var isCopiedPrivateKey = false
@@ -189,12 +189,12 @@ struct SignUpView: View {
        
         if errorMessages.isEmpty {
             var contents:[QContent] = [
-                QContent(data: AnyCodable("avatar"), format: "str"), // Key
+                QContent(data: AnyCodable("avatar"), format: "key"), // Key
                 QContent(data: AnyCodable(base64ImageString!), format: "base64") // Value
             ]
             for index in (0..<keyValuePairs.count) {
                 let (key, value) = keyValuePairs[index]
-                contents.append(QContent(data: AnyCodable(key), format: "str")) // Key
+                contents.append(QContent(data: AnyCodable(key), format: "key")) // Key
                 contents.append(QContent(data: AnyCodable(value), format: "str")) // Key
             }
             
