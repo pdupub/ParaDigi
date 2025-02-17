@@ -13,7 +13,7 @@ import Firebase
 struct HomeFeedView: View {
 
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
-    @Query(sort: \UnsignedQuantum.nonce, order: .forward) private var uqs: [UnsignedQuantum] // 按照nonce排序
+    @Query(sort: \UnsignedQuantum.nonce, order: .reverse) private var uqs: [UnsignedQuantum] // 按照nonce排序
 
     @State private var showAddTextView = false // 控制跳转页面的状态
 
@@ -25,11 +25,14 @@ struct HomeFeedView: View {
                 List(uqs) { uq in
                     NavigationLink(destination: PostDetailView(uq: uq)) {
                         VStack(alignment: .leading) {
-                            Text(uq.last) // 显示保存的内容
+
+                            Text(uq.contents![0].data!)
                                 .font(.headline)
-                            Text( uq.contents![0].data!)
-                                .font(.subheadline)
                                 .foregroundColor(.gray)
+                            Text(uq.last != "" ? uq.last : "First Quantum") // 显示保存的内容
+                                .font(.subheadline)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
                         }
                     }
                 }
