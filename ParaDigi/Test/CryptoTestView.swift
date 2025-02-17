@@ -79,9 +79,9 @@ struct CryptoTestView: View {
         privateKey = privateKeyData.map { String(format: "%02x", $0) }.joined()
 
         let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
-        publicKey = publicKeyData.map { String(format: "%02x", $0) }.joined()
+        publicKey = publicKeyData!.map { String(format: "%02x", $0) }.joined()
 
-        address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
+        address = CompatibleCrypto.generateAddress(publicKey: publicKeyData!)
     }
 
     private func signMessage() {
@@ -89,15 +89,16 @@ struct CryptoTestView: View {
         guard let messageData = message.data(using: .utf8) else { return }
 
         let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: messageData)
-        signature = signatureData.map { String(format: "%02x", $0) }.joined()
+        signature = signatureData!.map { String(format: "%02x", $0) }.joined()
     }
 
     private func verifySignature() {
         guard let publicKeyData = Data(hex: publicKey) else { return }
         guard let messageData = message.data(using: .utf8) else { return }
         guard let signatureData = Data(hex: signature) else { return }
+        let address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
 
-        let isValid = CompatibleCrypto.verifySignature(message: messageData, signature: signatureData, publicKey: publicKeyData)
+        let isValid = CompatibleCrypto.verifySignature(message: messageData, signature: signatureData, address: address)
         verificationResult = isValid ? "Valid" : "Invalid"
     }
 }

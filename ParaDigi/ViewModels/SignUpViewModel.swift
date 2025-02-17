@@ -44,7 +44,7 @@ class SignUpViewModel: ObservableObject {
         privateKey = privateKeyData.map { String(format: "%02x", $0) }.joined()
 
         let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
-        address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
+        address = CompatibleCrypto.generateAddress(publicKey: publicKeyData!)
     }
 
     // 拷贝地址到剪贴板

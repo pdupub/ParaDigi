@@ -14,7 +14,7 @@ class QuantumManager {
     func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
-        let address = CompatibleCrypto.generateAddress(publicKey: publicKey)
+        let address = CompatibleCrypto.generateAddress(publicKey: publicKey!)
         
         var last = ""
         var nonce = 1
@@ -34,7 +34,7 @@ class QuantumManager {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 print(jsonString)
                 let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
-                let signature = signatureData.map { String(format: "%02x", $0) }.joined()
+                let signature = signatureData!.map { String(format: "%02x", $0) }.joined()
                 return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
                 
 
