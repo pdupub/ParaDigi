@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct SplashScreenView: View {
+    @AppStorage("isUserRegistered") private var isUserRegistered: Bool = false  // 判断是否注册
     @State private var isActive = false
     @State private var showRegisterScreen = false
 
     var body: some View {
         Group {
             if isActive {
-                if showRegisterScreen {
-                    SignUpView()
-                } else {
+                if isUserRegistered {
                     MainView() // 主界面视图
+                } else {
+                    SignUpView()
                 }
             } else {
                 ZStack {
@@ -25,13 +26,6 @@ struct SplashScreenView: View {
                         .edgesIgnoringSafeArea(.all) // 背景色
 
                     VStack {
-//                        Image(systemName: "app.fill") // 可以替换为自定义 logo
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 100, height: 100)
-//                            .foregroundColor(.white)
-//                            .padding()
-                        
                         Text("ParaDigi")
                             .font(.system(size: 64, weight: .black))
                             .foregroundStyle(.white)
@@ -44,14 +38,15 @@ struct SplashScreenView: View {
                 }
                 .onTapGesture {
                     withAnimation {
-                        checkPrivateKeyInKeychain()
+//                        checkPrivateKeyInKeychain()
+                        checkUserStatus()
                     }
                 }
                 .onAppear {
                     // 延迟 3 秒后跳转到主界面
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         withAnimation {
-                            checkPrivateKeyInKeychain()
+                            checkUserStatus()
                         }
                     }
                 }
@@ -59,16 +54,8 @@ struct SplashScreenView: View {
         }
     }
     
-    // 检查Keychain中是否存在私钥
-    private func checkPrivateKeyInKeychain() {
-        if let _ = KeychainHelper.load(key: "userPrivateKey") {
-            // 如果Keychain中存在私钥，跳转到主页面
-            showRegisterScreen = false
-        } else {
-            // 如果Keychain中不存在私钥，跳转到注册页面
-            showRegisterScreen = true
-        }
-        
+    // 检查用户的注册状态
+    private func checkUserStatus() {
         isActive = true
     }
 }

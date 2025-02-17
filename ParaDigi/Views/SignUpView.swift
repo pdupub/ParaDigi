@@ -10,6 +10,9 @@ import SwiftUI
 struct SignUpView: View {
     @StateObject private var viewModel = SignUpViewModel()
     @Environment(\.modelContext) private var modelContext // 获取数据上下文
+    @Environment(\.dismiss) var dismiss  // 用来关闭当前视图
+    @AppStorage("isUserRegistered") private var isUserRegistered: Bool = false
+
 
     var body: some View {
         VStack {
@@ -108,6 +111,15 @@ struct SignUpView: View {
             // 创建用户按钮
             Button("Create User") {
                 viewModel.createUser()
+            }
+            .onChange(of: viewModel.isUserCreated) {_, isCreated in
+                if isCreated {
+                    // 用户创建成功，跳转到首页
+                    // 这里使用一个简单的 dismiss 来模拟跳转到首页
+                    // 设置注册状态为已注册
+                    isUserRegistered = true
+                    dismiss()
+                }
             }
             .padding()
             .background(Color.blue)
