@@ -26,7 +26,7 @@ struct HomeFeedView: View {
                     NavigationLink(destination: PostDetailView(uq: uq)) {
                         VStack(alignment: .leading) {
 
-                            Text(uq.contents![0].data!)
+                            Text(uq.contents![0].displayText)
                                 .font(.headline)
                                 .foregroundColor(.gray)
                             Text(uq.last != "" ? uq.last : "First Quantum") // 显示保存的内容
@@ -67,7 +67,7 @@ struct HomeFeedView: View {
             }
         }
         .sheet(isPresented: $showAddTextView) {
-            PostContentView() // 弹出输入页面
+            PostView() // 弹出输入页面
         }
     }
 }

@@ -45,6 +45,21 @@ class QContent: Identifiable, Encodable {
     private enum CodingKeys: String, CodingKey {
         case format, data
     }
+    
+    // 计算属性：返回解码后的值作为可显示的字符串
+    var displayText: String {
+        guard let decodedData = getDecodedData() else { return "N/A" }
+
+        if let intValue = decodedData.value as? Int {
+            return "\(intValue)" // 显示整数
+        } else if let doubleValue = decodedData.value as? Double {
+            return "\(doubleValue)" // 显示浮点数
+        } else if let stringValue = decodedData.value as? String {
+            return stringValue // 显示字符串
+        } else {
+            return "Unsupported Type" // 处理不支持的类型
+        }
+    }
 }
 
 // 处理 QContent.Data (存储任意类型)
