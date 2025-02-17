@@ -87,6 +87,16 @@ class SignUpViewModel: ObservableObject {
         errorMessages.reverse()
 
         if errorMessages.isEmpty {
+            // 保存private key
+            guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
+
+            if !KeychainHelper.save(key: Constants.defaultPrivateKey, data: privateKeyData) {
+                print("save private key to keychain fail")
+                return
+            }
+            
+            
+            // 组装contents
             var contents:[QContent] = [
                 QContent(data: AnyCodable("avatar"), format: "key"), // Key
                 QContent(data: AnyCodable(base64ImageString!), format: "base64") // Value
@@ -97,39 +107,14 @@ class SignUpViewModel: ObservableObject {
                 contents.append(QContent(data: AnyCodable(value), format: "str")) // Value
             }
             
-            let last = ""
-            let nonce = 1
-            let references: [String] = []
-            let type: Int = 1
-
-            // 创建 UnsignedQuantum 对象
-            let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
-            if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
-                if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    print(jsonString)
-                    guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
-                    let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
-                    let signature = signatureData.map { String(format: "%02x", $0) }.joined()
-                    let signedQuantum = SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
-                    
-                    if let signedData = try? JSONEncoder().encode(signedQuantum) {
-                        if let signedString = String(data:signedData, encoding: .utf8) {
-                            print("Encoded JSON: \(signedString)")
-                        }
-                    }
-
-                    let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
-                    
-                    let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
-                    print("Verify Signature: \(isVerify)")
-                    
-                    self.quantumManager.publishQuantum(signedQuantum, modelContext: modelContext)
-                    
-                    if let tmpRes = self.quantumManager.getSignerWithMaxNonce(signer: address!, modelContext: modelContext){
-                        print("query result nonce: \(tmpRes.unsignedQuantum.nonce)")
-                    }
-                }
+            guard let signedQuantum = self.quantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeIntegration, modelContext: modelContext) else {
+                print("create signedQuantum fail")
+                return
             }
+            
+            self.quantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
+            print("save quantum to local success")
+
         }
     }
 }

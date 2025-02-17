@@ -18,7 +18,7 @@ struct CompatibleCrypto {
         assert(result == errSecSuccess, "Failed to generate secure random bytes")
         return key
     }
-
+    
     // 从私钥生成公钥（非压缩格式）
     static func generatePublicKey(privateKey: Data) -> Data {
         let privateKeyKey = try! P256.Signing.PrivateKey(rawRepresentation: privateKey)

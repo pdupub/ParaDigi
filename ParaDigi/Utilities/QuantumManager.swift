@@ -10,14 +10,52 @@ import SwiftData
 import Firebase
 
 class QuantumManager {
-
-    // 发布一个新的 Quantum 到本地数据库和 Firebase
-    func publishQuantum(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
-        // 保存 Quantum 到本地 SwiftData
-        saveQuantumToLocal(quantum, modelContext: modelContext)
+    
+    func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
+        guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
+        let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
+        let address = CompatibleCrypto.generateAddress(publicKey: publicKey)
         
-        // 发送 Quantum 到 Firebase
-//        sendQuantumToFirebase(quantum)
+        var last = ""
+        var nonce = 1
+        var references: [String] = []
+        var type = 0
+        if qtype != 0 { type = 1}
+
+        if let lastQuantum = getSignerWithMaxNonce(signer: address, modelContext: modelContext){
+            print("query result nonce: \(lastQuantum.unsignedQuantum.nonce)")
+            nonce = lastQuantum.unsignedQuantum.nonce + 1
+            last = lastQuantum.signature!
+            references.append(last)
+        }
+        let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
+        //
+        if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print(jsonString)
+                let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
+                let signature = signatureData.map { String(format: "%02x", $0) }.joined()
+                return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
+                
+
+            }
+            
+        }
+        return nil
+    }
+    
+    func verifyQuantumSignature() -> Bool {
+        //                if let signedData = try? JSONEncoder().encode(signedQuantum) {
+        //                    if let signedString = String(data:signedData, encoding: .utf8) {
+        //                        print("Encoded JSON: \(signedString)")
+        //                    }
+        //                }
+        //
+        //                let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
+        //
+        //                let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
+        //                print("Verify Signature: \(isVerify)")
+        return true
     }
     
     func fetchAllQuantums(modelContext: ModelContext? ) -> [SignedQuantum] {
@@ -46,7 +84,7 @@ class QuantumManager {
     }
     
     // 保存 Quantum 到本地 SwiftData
-    private func saveQuantumToLocal(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
+    func saveQuantumToLocal(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
         // SwiftData 存储逻辑
         guard let modelContext = modelContext else { return }
         modelContext.insert(quantum)
@@ -54,7 +92,7 @@ class QuantumManager {
     }
     
     // 发送 Quantum 到 Firebase
-    private func sendQuantumToFirebase(_ quantum: SignedQuantum) {
+    func sendQuantumToFirebase(_ quantum: SignedQuantum) {
         let ref = Database.database().reference().child("quantums")
         let quantumData = try? JSONEncoder().encode(quantum)
         ref.child(quantum.id.uuidString).setValue(quantumData)

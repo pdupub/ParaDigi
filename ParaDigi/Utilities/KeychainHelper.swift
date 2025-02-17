@@ -56,4 +56,30 @@ class KeychainHelper {
         
         return status == errSecSuccess
     }
+    
+    // 获取 Keychain 中存储的所有 key
+    class func getAllKeys() -> [String] {
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecReturnAttributes: kCFBooleanTrue!, // 获取属性
+            kSecMatchLimit: kSecMatchLimitAll      // 获取所有项
+        ]
+        
+        var items: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &items)
+        
+        if status == errSecSuccess, let items = items as? [[CFString: Any]] {
+            var keys: [String] = []
+            
+            for item in items {
+                if let key = item[kSecAttrAccount] as? String {
+                    keys.append(key)
+                }
+            }
+            
+            return keys
+        } else {
+            return [] // 如果没有成功，返回空数组
+        }
+    }
 }
