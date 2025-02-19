@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct PostDetailView: View {
-    let uq: UnsignedQuantum // 接收选中的 Item
+    let quantum: SignedQuantum // 接收选中的 Item
     @StateObject private var viewModel = PostDetailViewModel()
 
     var body: some View {
         VStack {
-            Text(uq.contents![0].data!)
+            Text(quantum.unsignedQuantum.contents![0].data!)
                 .font(.title)
                 .padding()
                 .multilineTextAlignment(.leading) // 多行文字对齐
             
             
             
-            Text(uq.contents![0].displayText)
+            Text(quantum.unsignedQuantum.contents![0].displayText)
                 .font(.headline)
                 .foregroundColor(.gray)
             
