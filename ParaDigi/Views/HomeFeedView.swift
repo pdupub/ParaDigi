@@ -14,7 +14,7 @@ struct HomeFeedView: View {
 
     @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
     @Query(sort: \UnsignedQuantum.nonce, order: .reverse) private var uqs: [UnsignedQuantum] // 按照nonce排序
-
+    @StateObject private var viewModel = HomeFeedViewModel() // 引用ViewModel
     @State private var showAddTextView = false // 控制跳转页面的状态
 
     var body: some View {
