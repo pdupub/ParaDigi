@@ -52,7 +52,7 @@ class UnsignedQuantum: Identifiable, Encodable {
 }
 @Model
 class SignedQuantum: Identifiable, Encodable {
-    @Attribute(.unique) var id: UUID = UUID()
+    @Attribute(.unique) var id: UUID
     var unsignedQuantum: UnsignedQuantum
     var signature: String?
     var signer: String?
@@ -61,6 +61,14 @@ class SignedQuantum: Identifiable, Encodable {
         self.unsignedQuantum = unsignedQuantum
         self.signature = signature
         self.signer = signer
+        
+        let millisecondsSince1970 = Int64(Date().timeIntervalSince1970 * 1000)
+        let millisecondsString = String(millisecondsSince1970)
+        let fakeUUIDPrefix = String(millisecondsString.prefix(8) + "-" + millisecondsString.dropFirst(8).prefix(4))
+        
+        // 保证UUID前面的部分是时间戳
+        let uuidString = fakeUUIDPrefix + UUID().uuidString.suffix(23)
+        self.id = UUID(uuidString: uuidString)!
     }
     
     // 实现 Encodable 协议

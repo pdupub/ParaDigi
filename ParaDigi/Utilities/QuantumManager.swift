@@ -60,7 +60,7 @@ class QuantumManager {
     
     func fetchAllQuantums(modelContext: ModelContext? ) -> [SignedQuantum] {
         guard let modelContext = modelContext else { return []}
-        let descriptor = FetchDescriptor<SignedQuantum>(sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .reverse)] // 按年龄降序
+        let descriptor = FetchDescriptor<SignedQuantum>(sortBy: [SortDescriptor(\.id, order: .reverse)] // 按年龄降序
 )
         let signedQuantumList = (try? modelContext.fetch(descriptor)) ?? []
         for index in 0..<signedQuantumList.count {
