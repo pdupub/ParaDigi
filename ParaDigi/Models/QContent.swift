@@ -9,12 +9,20 @@ import Foundation
 
 @Model
 class QContent: Identifiable, Encodable {
-    @Attribute(.unique) var id: UUID = UUID()  // 确保每条数据唯一
+    @Attribute(.unique) var id: UUID // 确保每条数据唯一
     var data: String? // 将 Data 转换为 String 类型存储
     var format: String
     
     // 存储 AnyCodable 对象并将其转换为字符串格式
-    init(data: AnyCodable, format: String) {
+    init(order:Int, data: AnyCodable, format: String) {
+        // 使用 order 来影响 UUID 的生成
+        let orderPrefix = String(format: "%02X", order)  // 以16进制形式显示 order
+        let randomSuffix = UUID().uuidString.dropFirst(2)  // 去掉前两个字符
+        let modifiedUUIDString = orderPrefix + randomSuffix
+        // 生成修改后的 UUID
+        self.id = UUID(uuidString: modifiedUUIDString) ?? UUID()
+        
+        
         self.format = format
         self.data = try? JSONEncoder().encode(data).base64EncodedString()  // 将 Data 转为 Base64 字符串
     }

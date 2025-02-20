@@ -26,7 +26,7 @@ class PostViewModel: ObservableObject {
 
         guard let modelContext = modelContext else { return }
         // 创建 QContent 数据对象
-        let newContent = QContent(data: AnyCodable(textContent), format: "txt")
+        let newContent = QContent(order:0, data: AnyCodable(textContent), format: "txt")
         
         var contents = [QContent]()
         contents.append(newContent)

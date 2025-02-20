@@ -62,7 +62,11 @@ class QuantumManager {
         guard let modelContext = modelContext else { return []}
         let descriptor = FetchDescriptor<SignedQuantum>(sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .reverse)] // 按年龄降序
 )
-        return (try? modelContext.fetch(descriptor)) ?? []
+        let signedQuantumList = (try? modelContext.fetch(descriptor)) ?? []
+        for index in 0..<signedQuantumList.count {
+            signedQuantumList[index].unsignedQuantum.contents = signedQuantumList[index].unsignedQuantum.sortedContents()
+        }
+        return signedQuantumList
     }
 
     
@@ -77,7 +81,9 @@ class QuantumManager {
                                                                                                                 
         do {
             let quantums = try modelContext.fetch(descriptor)
-            return quantums.first
+            guard let lastQuantum = quantums.first else {return nil}
+            lastQuantum.unsignedQuantum.contents = lastQuantum.unsignedQuantum.sortedContents()
+            return lastQuantum
         } catch {
             print("Error fetching quantum data: \(error)")
             return nil

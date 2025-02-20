@@ -43,6 +43,12 @@ class UnsignedQuantum: Identifiable, Encodable {
     private enum CodingKeys: String, CodingKey {
         case contents, last, nonce, references, type
     }
+    
+    // 用于排序内容
+    func sortedContents() -> [QContent]? {
+        if self.contents == nil { return nil }
+        return self.contents!.sorted { $0.id < $1.id }
+    }
 }
 @Model
 class SignedQuantum: Identifiable, Encodable {

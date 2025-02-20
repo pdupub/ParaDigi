@@ -100,13 +100,13 @@ class SignUpViewModel: ObservableObject {
             
             // 组装contents
             var contents:[QContent] = [
-                QContent(data: AnyCodable("avatar"), format: "key"), // Key
-                QContent(data: AnyCodable(base64ImageString!), format: "base64") // Value
+                QContent(order:0, data: AnyCodable("avatar"), format: "key"), // Key
+                QContent(order:1, data: AnyCodable(base64ImageString!), format: "base64") // Value
             ]
             for index in (0..<keyValuePairs.count) {
                 let (key, value) = keyValuePairs[index]
-                contents.append(QContent(data: AnyCodable(key), format: "key")) // Key
-                contents.append(QContent(data: AnyCodable(value), format: "str")) // Value
+                contents.append(QContent(order:index*2 + 2, data: AnyCodable(key), format: "key")) // Key
+                contents.append(QContent(order:index*2 + 3, data: AnyCodable(value), format: "str")) // Value
             }
             
             guard let signedQuantum = self.quantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeIntegration, modelContext: modelContext) else {
