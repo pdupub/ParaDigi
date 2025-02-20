@@ -20,8 +20,6 @@ struct HomeFeedView: View {
 
     var body: some View {
         ZStack {
-            
-            
             NavigationView {
                 List(viewModel.qs) { quantum in
                     NavigationLink(destination: PostDetailView(quantum: quantum)) {
@@ -32,16 +30,14 @@ struct HomeFeedView: View {
                         }
                     }
                 }
-                
+//                .padding(.horizontal, -20)
                 .navigationTitle("Home")
                     .font(.title)
                     .foregroundColor(Color.primary)
-                
             }
             .onAppear {
                 // 当视图出现时，自动使 TextEditor 获取焦点
                 viewModel.setModelContext(modelContext: modelContext)
-                
             }
 
             

@@ -22,18 +22,18 @@ struct SplashScreenView: View {
                 }
             } else {
                 ZStack {
-                    Color.blue
+                    Color(.systemBackground)
                         .edgesIgnoringSafeArea(.all) // 背景色
 
                     VStack {
                         Text("ParaDigi")
                             .font(.system(size: 64, weight: .black))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color(.label))
                         
                         Text("Welcome to Our World")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(.label))
                     }
                 }
                 .onTapGesture {
