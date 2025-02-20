@@ -22,7 +22,10 @@ class PostViewModel: ObservableObject {
         self.modelContext = modelContext
     }
 
-    func saveItem() {
+    func saveItem(images: [UIImage]) {
+        // 添加图片处理
+        print("image count : \(images.count)")
+        //
         guard !textContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
 
         guard let modelContext = modelContext else { return }

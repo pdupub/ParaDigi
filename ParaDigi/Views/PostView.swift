@@ -1,32 +1,70 @@
 import SwiftUI
-import SwiftData
+import PhotosUI
 
 struct PostView: View {
-    @Environment(\.dismiss) private var dismiss // 用于关闭页面
-    @Environment(\.modelContext) private var modelContext // 获取数据上下文
-    @FocusState private var isFocused: Bool // 控制焦点状态
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @FocusState private var isFocused: Bool
     @StateObject private var viewModel = PostViewModel()
+    
+    @State private var selectedImages: [UIImage] = [] // 用于保存选中的图片
+    @State private var showImagePicker = false // 控制图片选择器显示
+    @State private var isImagePickerPresented = false // 用于显示 PHPickerViewController
 
     var body: some View {
         NavigationView {
             VStack {
-                HStack(alignment: .top) { // 设置对齐方式为顶部对齐
-                    
-//                    AvatarView(avatarBase64: userInfo?["avatar"]?.displayText)
+                HStack(alignment: .top) {
                     AvatarView(avatarBase64: viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText)
-
-                    // TextEditor 输入框
-                    TextEditor(text: $viewModel.textContent)
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .focused($isFocused) // 绑定焦点状态
+                    
+                    ZStack(alignment: .topLeading) {
+                        if viewModel.textContent.isEmpty {
+                            Text("Enter your post here...")
+                                .foregroundColor(.gray)
+                                .padding(.top, 8)
+                                .padding(.leading, 5)
+                        }
+                        TextEditor(text: $viewModel.textContent)
+                            .padding()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .focused($isFocused)
+                    }
                 }
-                .padding() // 给 HStack 添加一些内边距
-
+                .padding()
+                
+                // 图片选择按钮
+                HStack {
+                    Button(action: {
+                        isImagePickerPresented.toggle() // 展开图片选择器
+                    }) {
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.title)
+                            .padding()
+                            .background(Color.blue.opacity(0.1), in: Circle())
+                            .foregroundColor(.blue)
+                    }
+                    .sheet(isPresented: $isImagePickerPresented) {
+                        PhotoPicker(selectedImages: $selectedImages)
+                    }
+                }
+                .padding(.top)
+                
+                // 显示选中的图片
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(selectedImages, id: \.self) { image in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .padding(4)
+                        }
+                    }
+                }
+                
                 Spacer()
             }
             .onAppear {
-                // 当视图出现时，自动使 TextEditor 获取焦点
                 isFocused = true
                 viewModel.setModelContext(modelContext: modelContext)
             }
@@ -34,7 +72,7 @@ struct PostView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
-                        viewModel.saveItem()
+                        viewModel.saveItem(images: selectedImages) // 传递图片
                         dismiss()
                     }
                     .foregroundColor(Color.primary)
@@ -48,5 +86,57 @@ struct PostView: View {
             }
         }
     }
+}
 
+struct PhotoPicker: View {
+    @Binding var selectedImages: [UIImage]
+    
+    var body: some View {
+        PHPickerViewControllerWrapper(selectedImages: $selectedImages)
+    }
+}
+
+struct PHPickerViewControllerWrapper: UIViewControllerRepresentable {
+    @Binding var selectedImages: [UIImage]
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 4 // 限制最多选择4张图片
+        config.filter = .images // 仅允许选择图片
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(selectedImages: $selectedImages)
+    }
+    
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        @Binding var selectedImages: [UIImage]
+        
+        init(selectedImages: Binding<[UIImage]>) {
+            _selectedImages = selectedImages
+        }
+        
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+            var images: [UIImage] = []
+            
+            for result in results {
+                result.itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
+                    if let image = object as? UIImage {
+                        images.append(image)
+                    }
+                    if images.count == results.count {
+                        DispatchQueue.main.async {
+                            self.selectedImages = images
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
