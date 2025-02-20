@@ -13,25 +13,37 @@ struct QuantumRowView: View {
     var userInfo: [String: QContent]? // 用户信息作为参数传入
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(quantum.unsignedQuantum.contents![0].displayText)
-                .font(.headline)
-                .foregroundColor(.gray)
-            Text(quantum.unsignedQuantum.last != "" ? quantum.unsignedQuantum.last : "First Quantum")
-                .font(.subheadline)
-                .lineLimit(1)
-                .truncationMode(.middle)
+        
+        HStack(alignment: .top) {
+            AvatarView(avatarBase64: userInfo?["avatar"]?.displayText)
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    
+                    if let nickName = userInfo?["nickname"] {
+                        Text(nickName.displayText)
+                                        .font(.subheadline)
+                                } else {
+                                    Text("Loading user info...")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                    }
+                    
+                    
+                    Text(quantum.unsignedQuantum.last != "" ? "@\(quantum.unsignedQuantum.last)" : "First Quantum")
+                        .font(.subheadline)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .foregroundColor(.gray)
+                }
+                
+                Text(quantum.unsignedQuantum.contents![0].displayText)
+                    .font(.headline)
             
-//            if let nickName = userInfo?["nickname"] {
-//                Text("User: \(nickName.data)")
-//                                .font(.subheadline)
-//                                .foregroundColor(.blue)
-//                        } else {
-//                            Text("Loading user info...")
-//                                .font(.subheadline)
-//                                .foregroundColor(.gray)
-//                        }
+                
+            }
         }
+        
+
     }
 }
 

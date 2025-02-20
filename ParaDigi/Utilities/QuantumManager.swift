@@ -110,41 +110,39 @@ class QuantumManager {
         ref.child(quantum.id.uuidString).setValue(quantumData)
     }
 
-//    func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
-//        var userInfoDict : [String:QContent] = [:]
-//        
-//        guard let modelContext = modelContext else { return userInfoDict}
-//                                                                                                                        
-//        let descriptor = FetchDescriptor<SignedQuantum>(
-//            predicate: #Predicate { $0.signer == signer && $0.unsignedQuantum.type == 1 }, // Constants.quantumTypeIntegration},
-//            sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .reverse)] // 按年龄降序
-//        )
-//  
-//                                                                                                                
-//        do {
-//            let quantums = try modelContext.fetch(descriptor)
-//            for quantum in quantums{
-//                print("Load UserInfo")
-//                printQContents(cs: quantum.unsignedQuantum.contents)
-//                if let contents = quantum.unsignedQuantum.contents {
-//                    // 遍历每个 quantum 的 contents
-//                    for index in stride(from: 0, to: contents.count, by: 2) {
-//                        let content = contents[index]
-//
-//                        // 只有偶数索引的 QContent 且 format 为 "key" 才处理
-//                        if content.format == "key" {
-//                            // 获取紧接着的奇数索引的 QContent 作为 value
-//                            if index + 1 < contents.count {
-//                                userInfoDict[content.displayText] = contents[index + 1]
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            
-//        } catch {
-//            print("Error fetching quantum data: \(error)")
-//        }
-//        return userInfoDict
-//    }
+    func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
+        var userInfoDict : [String:QContent] = [:]
+        
+        guard let modelContext = modelContext else { return userInfoDict}
+                                                                                                                        
+        let descriptor = FetchDescriptor<SignedQuantum>(
+            predicate: #Predicate { $0.signer == signer && $0.unsignedQuantum.type == 1 }, // Constants.quantumTypeIntegration},
+            sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .forward)] // 按年龄降序
+        )
+  
+                                                                                                                
+        do {
+            let quantums = try modelContext.fetch(descriptor)
+            for quantum in quantums{
+                if let contents = quantum.unsignedQuantum.contents {
+                    // 遍历每个 quantum 的 contents
+                    for index in stride(from: 0, to: contents.count, by: 2) {
+                        let content = contents[index]
+
+                        // 只有偶数索引的 QContent 且 format 为 "key" 才处理
+                        if content.format == "key" {
+                            // 获取紧接着的奇数索引的 QContent 作为 value
+                            if index + 1 < contents.count {
+                                userInfoDict[content.displayText] = contents[index + 1]
+                            }
+                        }
+                    }
+                }
+            }
+            
+        } catch {
+            print("Error fetching quantum data: \(error)")
+        }
+        return userInfoDict
+    }
 }

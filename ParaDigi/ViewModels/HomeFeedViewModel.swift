@@ -34,14 +34,15 @@ class HomeFeedViewModel: ObservableObject {
         fetchData()
     }
     
-//    func fetchUserInfo(for signer: String, modelContext: ModelContext) -> [String: QContent]?{
-//        if !self.userInfoDict.keys.contains(signer) {
-//            let userInfo = self.quantumManager.getUserInfo(signer:signer, modelContext: modelContext)
-//            if !userInfo.isEmpty {
-//                self.userInfoDict[signer] = userInfo
-//            }
-//        }
-//        return self.userInfoDict[signer]
-//    }
-//    
+    func fetchUserInfo(for signer: String, modelContext: ModelContext) -> [String: QContent]?{
+        if !self.userInfoDict.keys.contains(signer) {
+            let userInfo = self.quantumManager.getUserInfo(signer:signer, modelContext: modelContext)
+            if !userInfo.isEmpty {
+                // update userInfoDict
+                self.userInfoDict[signer] = userInfo
+            }
+        }
+        return self.userInfoDict[signer]
+    }
+    
 }

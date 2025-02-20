@@ -68,7 +68,6 @@ struct MainView: View {
 //                FBTestingView()
 //                CryptoTestView()
 //                AnimateView()
-//                AvatarView()
 //                SignUpView()
                 PrivateKeyLoginView()
             }
