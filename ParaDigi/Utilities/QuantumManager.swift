@@ -89,7 +89,12 @@ class QuantumManager {
         // SwiftData 存储逻辑
         guard let modelContext = modelContext else { return }
         modelContext.insert(quantum)
- 
+        do {
+            // 保存到数据库
+            try modelContext.save()
+        } catch {
+            print("保存数据时发生错误: \(error)")
+        }
     }
     
     // 发送 Quantum 到 Firebase
