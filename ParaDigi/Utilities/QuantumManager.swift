@@ -11,6 +11,12 @@ import Firebase
 
 class QuantumManager {
     
+    func getCurrentSigner() -> String? {
+        guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
+        let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
+        return CompatibleCrypto.generateAddress(publicKey: publicKey!)
+    }
+    
     func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)

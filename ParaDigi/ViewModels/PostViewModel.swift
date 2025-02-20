@@ -11,6 +11,7 @@ import SwiftData
 class PostViewModel: ObservableObject {
     private var modelContext: ModelContext? // 直接持有 modelContext
     @Published var textContent: String = "" // 绑定的输入文本
+
     private var quantumManager: QuantumManager
 
     init() {
@@ -39,5 +40,10 @@ class PostViewModel: ObservableObject {
         self.quantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
         print("save quantum to local success")
         
+    }
+    
+    func fetchDefaultUserInfo(modelContext: ModelContext) -> [String: QContent]?{
+        guard let signer = self.quantumManager.getCurrentSigner() else { return nil }
+        return self.quantumManager.getUserInfo(signer:signer, modelContext: modelContext)
     }
 }

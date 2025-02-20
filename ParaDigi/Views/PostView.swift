@@ -11,13 +11,9 @@ struct PostView: View {
         NavigationView {
             VStack {
                 HStack(alignment: .top) { // 设置对齐方式为顶部对齐
-                    // 头像区域，使用 SFSymbol 图标
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.gray) // 设置头像的颜色
-                        .clipShape(Circle()) // 圆形头像
+                    
+//                    AvatarView(avatarBase64: userInfo?["avatar"]?.displayText)
+                    AvatarView(avatarBase64: viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText)
 
                     // TextEditor 输入框
                     TextEditor(text: $viewModel.textContent)
