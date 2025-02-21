@@ -1,7 +1,7 @@
 import SwiftUI
 import PhotosUI
 
-struct PostView: View {
+struct PostFeedView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isFocused: Bool

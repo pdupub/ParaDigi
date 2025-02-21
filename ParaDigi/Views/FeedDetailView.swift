@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PostDetailView: View {
+struct FeedDetailView: View {
     let quantum: SignedQuantum // 接收选中的 Item
     @StateObject private var viewModel = PostDetailViewModel()
 

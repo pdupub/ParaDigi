@@ -22,7 +22,7 @@ struct HomeFeedView: View {
         ZStack {
             NavigationView {
                 List(viewModel.qs) { quantum in
-                    NavigationLink(destination: PostDetailView(quantum: quantum)) {
+                    NavigationLink(destination: FeedDetailView(quantum: quantum)) {
                         VStack(alignment: .leading) {
                             QuantumRowView(quantum: quantum, userInfo: viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext)) // 使用新的 QuantumRowView
 //                            QuantumRowView(quantum: quantum) // 使用新的 QuantumRowView
@@ -70,7 +70,7 @@ struct HomeFeedView: View {
             // 在 PostView 关闭后刷新 HomeFeedView 的数据
             viewModel.refreshData()
         }) {
-            PostView() // 弹出输入页面
+            PostFeedView() // 弹出输入页面
         }
     }
 }
