@@ -11,6 +11,51 @@ import Firebase
 
 class QuantumManager {
     
+    // 自定义方法返回字符串内容
+    static func getDisplayTxt(quantum: SignedQuantum) -> String {
+        var displayTxt = ""
+        if quantum.unsignedQuantum.type == 1 {
+            displayTxt = "Update User Profile"
+        }
+        if let cs = quantum.unsignedQuantum.contents {
+            for content in cs {
+                if content.format == "txt" {
+                    displayTxt += content.displayText + "\n"
+                }
+            }
+        }
+        
+        return displayTxt
+    }
+    
+    static func isImgExist(quantum: SignedQuantum) -> Bool {
+        if let cs = quantum.unsignedQuantum.contents {
+            for content in cs {
+                if content.format == "base64" {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    static func getDisplayImgs(quantum: SignedQuantum) -> [UIImage] {
+        var displayImages : [UIImage] = []
+        if let cs = quantum.unsignedQuantum.contents {
+            for content in cs {
+                if content.format == "base64" {
+                    if let imageData = Data(base64Encoded: content.displayText) {
+                        if let uiImage = UIImage(data: imageData) {
+                            displayImages.append(uiImage)
+                        }
+                    }
+                }
+            }
+        }
+        
+        return displayImages
+    }
+    
     func getCurrentSigner() -> String? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)

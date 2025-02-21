@@ -28,48 +28,16 @@ class QuantumRowViewModel: ObservableObject {
     }
     
     func getDisplayImgs() -> [UIImage] {
-        var displayImages : [UIImage] = []
-        if let cs = quantum.unsignedQuantum.contents {
-            for content in cs {
-                if content.format == "base64" {
-                    if let imageData = Data(base64Encoded: content.displayText) {
-                        if let uiImage = UIImage(data: imageData) {
-                            displayImages.append(uiImage)
-                        }
-                    }
-                }
-            }
-        }
-        
-        return displayImages
+        return QuantumManager.getDisplayImgs(quantum: quantum)
     }
     
     func isImgExist() -> Bool {
-        if let cs = quantum.unsignedQuantum.contents {
-            for content in cs {
-                if content.format == "base64" {
-                    return true
-                }
-            }
-        }
-        return false
+        return QuantumManager.isImgExist(quantum: quantum)
     }
     
     // 自定义方法返回字符串内容
     func getDisplayTxt() -> String {
-        var displayTxt = ""
-        if quantum.unsignedQuantum.type == 1 {
-            displayTxt = "Update User Profile"
-        }
-        if let cs = quantum.unsignedQuantum.contents {
-            for content in cs {
-                if content.format == "txt" {
-                    displayTxt += content.displayText + "\n"
-                }
-            }
-        }
-        
-        return displayTxt
+        return QuantumManager.getDisplayTxt(quantum: quantum)
     }
     
 }
