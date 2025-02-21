@@ -100,4 +100,34 @@ struct ImageUtilities {
         }
         return imageData.base64EncodedString()
     }
+    
+    // 计算并裁切图片
+    static func cropImageToAspectRatio(image: UIImage, targetAspectRatio: CGFloat) -> UIImage {
+        let imageSize = image.size
+        let imageAspectRatio = imageSize.width / imageSize.height
+        
+        // 判断图片是否需要裁切
+        if abs(imageAspectRatio - targetAspectRatio) < 0.01 {
+            return image // 不需要裁切
+        }
+        
+        // 计算裁切后的宽高
+        var cropRect: CGRect
+        if imageAspectRatio > targetAspectRatio {  // 宽大于高
+            let cropWidth = imageSize.height * targetAspectRatio
+            let cropX = (imageSize.width - cropWidth) / 2
+            cropRect = CGRect(x: cropX, y: 0, width: cropWidth, height: imageSize.height)
+        } else {  // 高大于宽
+            let cropHeight = imageSize.width / targetAspectRatio
+            let cropY = (imageSize.height - cropHeight) / 2
+            cropRect = CGRect(x: 0, y: cropY, width: imageSize.width, height: cropHeight)
+        }
+        
+        // 裁切图像
+        if let cgImage = image.cgImage?.cropping(to: cropRect) {
+            return UIImage(cgImage: cgImage)
+        }
+        
+        return image // 默认返回原始图片
+    }
 }

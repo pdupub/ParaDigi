@@ -50,18 +50,9 @@ struct PostFeedView: View {
                 .padding(.top)
                 
                 // 显示选中的图片
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(selectedImages, id: \.self) { image in
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .padding(4)
-                        }
-                    }
-                }
-                
+                SelectedImageView(images: selectedImages)
+                    .cornerRadius(10)  // 设置圆角
+                    .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
                 Spacer()
             }
             .onAppear {
