@@ -22,20 +22,16 @@ struct HomeFeedView: View {
         ZStack {
             NavigationView {
                 List(viewModel.qs) { quantum in
-                    NavigationLink(destination: FeedDetailView(quantum: quantum)) {
-                        VStack(alignment: .leading) {
-                            QuantumRowView(quantum: quantum, userInfo: viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext))
-//                                .frame(minHeight: 0, maxHeight: .infinity)
-
+                    if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                        NavigationLink(destination: FeedDetailView(quantum: quantum, userInfo: user )) {
+                            VStack(alignment: .leading) {
+                                QuantumRowView(quantum: quantum, userInfo: user)
+                                
+                            }
                         }
                     }
                 }
                 .listStyle(PlainListStyle())
-//                .navigationTitle("Home")
-//                .navigationBarTitleDisplayMode(.inline)
-//                .navigationBarHidden(true)
-//                .font(.title)
-//                .foregroundColor(Color.primary)
             }
             .onAppear {
                 // 当视图出现时，自动使 TextEditor 获取焦点
