@@ -23,18 +23,27 @@ class PostFeedViewModel: ObservableObject {
     }
 
     func saveItem(images: [UIImage]) {
-        // 添加图片处理
-        print("image count : \(images.count)")
-        //
-        guard !textContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-
         guard let modelContext = modelContext else { return }
-        // 创建 QContent 数据对象
-        let newContent = QContent(order:0, data: AnyCodable(textContent), format: "txt")
-        
         var contents = [QContent]()
-        contents.append(newContent)
 
+        if !textContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            // 创建 QContent 数据对象
+            let txtContent = QContent(order:0, data: AnyCodable(textContent), format: "txt")
+            contents.append(txtContent)
+        }
+
+        // 添加图片处理
+        for img in images {
+            if let compressedImg = img.compressToFit(maxSize: 64) {
+                if let base64Img = ImageUtilities.imageToBase64(image:compressedImg){
+                    let imgContent = QContent(order:0, data: AnyCodable(base64Img), format: "base64")
+                    contents.append(imgContent)
+                }
+            }
+        }
+
+        if contents.count == 0 { return }
+        
         guard let signedQuantum = self.quantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeInformation, modelContext: modelContext) else {
             print("create signedQuantum fail")
             return

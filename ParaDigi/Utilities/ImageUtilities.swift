@@ -131,3 +131,31 @@ struct ImageUtilities {
         return image // 默认返回原始图片
     }
 }
+
+extension UIImage {
+    // 压缩图片到适合手机显示的尺寸，保持宽高比例
+    func compressToFit(maxSize: CGFloat = 1024) -> UIImage? {
+        let imageSize = self.size
+        let widthRatio = maxSize / imageSize.width
+        let heightRatio = maxSize / imageSize.height
+        let ratio = min(widthRatio, heightRatio)
+        
+        // 如果图片已经小于指定尺寸，则不需要压缩
+        if ratio >= 1 {
+            return self
+        }
+        
+        // 计算缩放后的尺寸
+        let newWidth = imageSize.width * ratio
+        let newHeight = imageSize.height * ratio
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        
+        // 创建缩放后的图像
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        self.draw(in: CGRect(origin: .zero, size: newSize))
+        let compressedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return compressedImage
+    }
+}
