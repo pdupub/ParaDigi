@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-class PostDetailViewModel: ObservableObject {
+class FeedDetailViewModel: ObservableObject {
 
     
 }

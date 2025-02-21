@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-class PostViewModel: ObservableObject {
+class PostFeedViewModel: ObservableObject {
     private var modelContext: ModelContext? // 直接持有 modelContext
     @Published var textContent: String = "" // 绑定的输入文本
 

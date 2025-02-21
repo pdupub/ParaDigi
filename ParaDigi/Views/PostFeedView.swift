@@ -5,7 +5,7 @@ struct PostFeedView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isFocused: Bool
-    @StateObject private var viewModel = PostViewModel()
+    @StateObject private var viewModel = PostFeedViewModel()
     
     @State private var selectedImages: [UIImage] = [] // 用于保存选中的图片
     @State private var showImagePicker = false // 控制图片选择器显示
