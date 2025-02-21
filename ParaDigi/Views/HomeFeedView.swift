@@ -24,8 +24,8 @@ struct HomeFeedView: View {
                 List(viewModel.qs) { quantum in
                     NavigationLink(destination: FeedDetailView(quantum: quantum)) {
                         VStack(alignment: .leading) {
-                            QuantumRowView(quantum: quantum, userInfo: viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext)) // 使用新的 QuantumRowView
-//                            QuantumRowView(quantum: quantum) // 使用新的 QuantumRowView
+                            QuantumRowView(quantum: quantum, userInfo: viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext))
+//                                .frame(minHeight: 0, maxHeight: .infinity)
 
                         }
                     }

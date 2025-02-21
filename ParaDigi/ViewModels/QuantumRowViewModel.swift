@@ -10,20 +10,20 @@ import SwiftUI
 
 // ViewModel 用于处理 Quantum 的数据逻辑
 class QuantumRowViewModel: ObservableObject {
-    
-    @Published var userName: String
-    @Published var userNickName: String
-    @Published var userAvatar: String
+    @Published var signature: String
+    @Published var last: String
+    @Published var nickName: String
+    @Published var avatar: String
     
     private var quantum: SignedQuantum
     
     // 初始化时传入 quantum 和 userInfo
     init(quantum: SignedQuantum, userInfo: [String: QContent]?) {
         self.quantum = quantum
-        
-        self.userName = quantum.unsignedQuantum.last == "" ? "First Quantum" : "@\(quantum.unsignedQuantum.last)"
-        self.userNickName = userInfo?["nickname"]?.displayText ?? "Loading user info..."
-        self.userAvatar = userInfo?["avatar"]?.displayText ?? ""
+        self.signature = (quantum.signature?.isEmpty ?? true) ? "" : "@\(quantum.signature!)"
+        self.last = quantum.unsignedQuantum.last == "" ? "First Quantum" : "@\(quantum.unsignedQuantum.last)"
+        self.nickName = userInfo?["nickname"]?.displayText ?? "Loading user info..."
+        self.avatar = userInfo?["avatar"]?.displayText ?? ""
         
     }
     
@@ -42,6 +42,17 @@ class QuantumRowViewModel: ObservableObject {
         }
         
         return displayImages
+    }
+    
+    func isImgExist() -> Bool {
+        if let cs = quantum.unsignedQuantum.contents {
+            for content in cs {
+                if content.format == "base64" {
+                    return true
+                }
+            }
+        }
+        return false
     }
     
     // 自定义方法返回字符串内容

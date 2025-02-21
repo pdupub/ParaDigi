@@ -23,25 +23,40 @@ struct QuantumRowView: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            AvatarView(avatarBase64: viewModel.userAvatar)
+            AvatarView(avatarBase64: viewModel.avatar)
             
             VStack(alignment: .leading) {
                 HStack(alignment: .top) {
-                    Text(viewModel.userNickName)
+                    Text(viewModel.nickName)
                                    .font(.subheadline)
-                                   .foregroundColor(viewModel.userNickName == "Loading user info..." ? .gray : .primary)
+                                   .fontWeight(.bold)
+                                   .foregroundColor(viewModel.nickName == "Loading user info..." ? .gray : .primary)
                                
-                   Text(viewModel.userName)
+                    Text(viewModel.signature)
                        .font(.subheadline)
                        .lineLimit(1)
                        .truncationMode(.middle)
                        .foregroundColor(.gray)
-                }
-
-               Text(viewModel.getDisplayTxt())
-                   .font(.headline)
-               SelectedImageView(images: viewModel.getDisplayImgs())
                     
+                    Spacer()
+                    
+                    Text(viewModel.last)
+                       .font(.subheadline)
+                       .lineLimit(1)
+                       .truncationMode(.middle)
+                       .foregroundColor(.gray)
+                       .opacity(0.3)
+                    
+                    
+                }
+                    
+                Text(viewModel.getDisplayTxt())
+                       .font(.headline)
+                if viewModel.isImgExist() {
+                    SelectedImageView(images: viewModel.getDisplayImgs())
+                        .aspectRatio(16/9, contentMode: .fill)
+                        .cornerRadius(10)  // 设置圆角
+                }
             }
         }
     }
