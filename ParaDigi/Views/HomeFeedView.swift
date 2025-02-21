@@ -30,10 +30,12 @@ struct HomeFeedView: View {
                         }
                     }
                 }
-                .listStyle(PlainListStyle()) 
-                .navigationTitle("Home")
-                    .font(.title)
-                    .foregroundColor(Color.primary)
+                .listStyle(PlainListStyle())
+//                .navigationTitle("Home")
+//                .navigationBarTitleDisplayMode(.inline)
+//                .navigationBarHidden(true)
+//                .font(.title)
+//                .foregroundColor(Color.primary)
             }
             .onAppear {
                 // 当视图出现时，自动使 TextEditor 获取焦点
