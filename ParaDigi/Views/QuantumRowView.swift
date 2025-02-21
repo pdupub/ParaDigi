@@ -37,10 +37,11 @@ struct QuantumRowView: View {
                        .truncationMode(.middle)
                        .foregroundColor(.gray)
                 }
-                
-                Text(viewModel.displayContent)
-                    .font(.headline)
-                
+
+               Text(viewModel.getDisplayTxt())
+                   .font(.headline)
+               SelectedImageView(images: viewModel.getDisplayImgs())
+                    
             }
         }
     }

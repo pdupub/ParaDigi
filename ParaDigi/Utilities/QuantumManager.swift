@@ -37,7 +37,7 @@ class QuantumManager {
         let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
         //
         if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
+            if let _ = String(data: jsonData, encoding: .utf8) {
                 let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
                 let signature = signatureData!.map { String(format: "%02x", $0) }.joined()
                 return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
