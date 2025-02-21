@@ -30,7 +30,7 @@ struct HomeFeedView: View {
                         }
                     }
                 }
-//                .padding(.horizontal, -20)
+                .listStyle(PlainListStyle()) 
                 .navigationTitle("Home")
                     .font(.title)
                     .foregroundColor(Color.primary)

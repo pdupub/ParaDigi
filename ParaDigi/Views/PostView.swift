@@ -18,16 +18,16 @@ struct PostView: View {
                     AvatarView(avatarBase64: viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText)
                     
                     ZStack(alignment: .topLeading) {
+                        
+                        TextEditor(text: $viewModel.textContent)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .focused($isFocused)
                         if viewModel.textContent.isEmpty {
                             Text("Enter your post here...")
                                 .foregroundColor(.gray)
                                 .padding(.top, 8)
-                                .padding(.leading, 5)
+                                .padding(.leading, 8)
                         }
-                        TextEditor(text: $viewModel.textContent)
-                            .padding()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .focused($isFocused)
                     }
                 }
                 .padding()

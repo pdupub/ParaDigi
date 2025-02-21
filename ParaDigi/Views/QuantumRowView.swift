@@ -13,7 +13,6 @@ struct QuantumRowView: View {
     var userInfo: [String: QContent]? // 用户信息作为参数传入
 
     var body: some View {
-        
         HStack(alignment: .top) {
             AvatarView(avatarBase64: userInfo?["avatar"]?.displayText)
             VStack(alignment: .leading) {
@@ -21,11 +20,11 @@ struct QuantumRowView: View {
                     
                     if let nickName = userInfo?["nickname"] {
                         Text(nickName.displayText)
-                                        .font(.subheadline)
-                                } else {
-                                    Text("Loading user info...")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
+                            .font(.subheadline)
+                    } else {
+                        Text("Loading user info...")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
                     
                     
@@ -38,12 +37,10 @@ struct QuantumRowView: View {
                 
                 Text(quantum.unsignedQuantum.contents![0].displayText)
                     .font(.headline)
-            
+                
                 
             }
         }
-        
-
     }
 }
 
