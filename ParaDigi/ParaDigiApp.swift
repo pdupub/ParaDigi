@@ -65,10 +65,10 @@ struct MainView: View {
                 SettingsView()
             case .testing:
 //                FBTestingView()
-//                CryptoTestView()
+                CryptoTestView()
 //                AnimateView()
 //                SignUpView()
-                PrivateKeyLoginView()
+//                PrivateKeyLoginView()
             }
             Spacer()
             // Tab bar at the bottom

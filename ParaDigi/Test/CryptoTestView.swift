@@ -16,14 +16,14 @@ struct CryptoTestView: View {
                     .font(.largeTitle)
                     .bold()
 
-                Button("Generate Keys & Address") {
-                    generateKeysAndAddress()
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+//                Button("Generate Keys & Address") {
+//                    generateKeysAndAddress()
+//                }
+//                .padding()
+//                .frame(maxWidth: .infinity)
+//                .background(Color.blue)
+//                .foregroundColor(.white)
+//                .cornerRadius(8)
 
                 Group {
                     ClickableText(title: "Private Key:", content: privateKey)
@@ -37,25 +37,25 @@ struct CryptoTestView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
 
-                Button("Sign Message") {
-                    signMessage()
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+//                Button("Sign Message") {
+//                    signMessage()
+//                }
+//                .padding()
+//                .frame(maxWidth: .infinity)
+//                .background(Color.green)
+//                .foregroundColor(.white)
+//                .cornerRadius(8)
 
                 ClickableText(title: "Signature:", content: signature)
 
-                Button("Verify Signature") {
-                    verifySignature()
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+//                Button("Verify Signature") {
+//                    verifySignature()
+//                }
+//                .padding()
+//                .frame(maxWidth: .infinity)
+//                .background(Color.orange)
+//                .foregroundColor(.white)
+//                .cornerRadius(8)
 
                 Text("Verification Result:")
                     .font(.headline)
@@ -69,6 +69,11 @@ struct CryptoTestView: View {
                         .padding(.top, 10)
                         .transition(.opacity)
                 }
+            }
+            .onAppear{
+                generateKeysAndAddress()
+                signMessage()
+                verifySignature()
             }
             .padding()
         }
@@ -95,6 +100,7 @@ struct CryptoTestView: View {
     private func verifySignature() {
         guard let publicKeyData = Data(hex: publicKey) else { return }
         guard let messageData = message.data(using: .utf8) else { return }
+
         guard let signatureData = Data(hex: signature) else { return }
         let address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
 
