@@ -46,8 +46,7 @@ struct QuantumRowView: View {
                        .truncationMode(.middle)
                        .foregroundColor(.gray)
                        .opacity(0.3)
-                    
-                    
+                                    
                 }
                     
                 Text(viewModel.getDisplayTxt())
