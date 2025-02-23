@@ -44,18 +44,17 @@ struct FeedDetailView: View {
                     
                     
                 }
-            .padding()
                 
-            VStack(alignment: .leading) {
-                Text(viewModel.getDisplayTxt())
-                       .font(.headline)
-                if viewModel.isImgExist() {
-                    SelectedImageView(images: viewModel.getDisplayImgs())
-                }
-                
-                Spacer()
+            Text(viewModel.getDisplayTxt())
+                   .font(.headline)
+            if viewModel.isImgExist() {
+                SelectedImageView(images: viewModel.getDisplayImgs())
+                    .cornerRadius(10)  // 设置圆角
+                    .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
             }
-            .padding()
+            
+            Spacer()
+           
         }
     }
 }
