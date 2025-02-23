@@ -23,7 +23,7 @@ struct CompatibleCrypto {
     // 从 secp256k1 私钥生成公钥
     // 返回压缩格式（33 字节），需要生成以太坊地址时，则需要转换为未压缩格式
     static func generatePublicKey(privateKey: Data) -> Data? {
-        guard let privKey = try? secp256k1.Signing.PrivateKey(dataRepresentation: privateKey) else {
+        guard let privKey = try? secp256k1.Recovery.PrivateKey(dataRepresentation: privateKey) else {
             return nil
         }
         return privKey.publicKey.dataRepresentation
@@ -39,13 +39,13 @@ struct CompatibleCrypto {
     
     // 使用私钥签名消息
     static func signMessage(privateKey: Data, message: Data) -> Data? {
-        guard let privKey = try? secp256k1.Signing.PrivateKey(dataRepresentation: privateKey) else {
+        guard let privKey = try? secp256k1.Recovery.PrivateKey(dataRepresentation: privateKey) else {
             return nil
         }
         guard let signature = try? privKey.signature(for: message) else {
             return nil
         }
-        return try? signature.derRepresentation
+        return signature.dataRepresentation
     }
         
     
@@ -67,7 +67,7 @@ struct CompatibleCrypto {
     static func generatePrivateKey(fromString string: String) -> Data? {
         
         let privateBytes = try! string.bytes
-        let privateKey = try! secp256k1.Signing.PrivateKey(dataRepresentation: privateBytes)
+        let privateKey = try! secp256k1.Recovery.PrivateKey(dataRepresentation: privateBytes)
         return privateKey.dataRepresentation
     }
 }
