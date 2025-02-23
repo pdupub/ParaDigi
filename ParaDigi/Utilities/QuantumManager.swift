@@ -62,6 +62,21 @@ class QuantumManager {
         return CompatibleCrypto.generateAddress(publicKey: publicKey!)
     }
     
+    // 从十六进制字符串恢复成 Data
+    static func hexStringToData(hexString: String) -> Data? {
+        var data = Data()
+        var startIndex = hexString.startIndex
+        while startIndex < hexString.endIndex {
+            let endIndex = hexString.index(startIndex, offsetBy: 2)
+            let hexSubString = hexString[startIndex..<endIndex]
+            if let byte = UInt8(hexSubString, radix: 16) {
+                data.append(byte)
+            }
+            startIndex = endIndex
+        }
+        return data
+    }
+    
     func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
@@ -86,26 +101,17 @@ class QuantumManager {
                 let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
                 let signature = signatureData!.map { String(format: "%02x", $0) }.joined()
                 return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
-                
-
             }
-            
         }
         return nil
     }
     
-    func verifyQuantumSignature() -> Bool {
-        //                if let signedData = try? JSONEncoder().encode(signedQuantum) {
-        //                    if let signedString = String(data:signedData, encoding: .utf8) {
-        //                        print("Encoded JSON: \(signedString)")
-        //                    }
-        //                }
-        //
-        //                let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
-        //
-        //                let isVerify = CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, publicKey: publicKeyData)
-        //                print("Verify Signature: \(isVerify)")
-        return true
+    static func verifyQuantumSignature(_ signedQuantum: SignedQuantum) -> Bool {
+        guard let address = signedQuantum.signer else { return false }
+        guard let signature = signedQuantum.signature else { return false }
+        guard let signatureData = hexStringToData(hexString: signature) else { return false }
+        guard let jsonData = try? JSONEncoder().encode(signedQuantum.unsignedQuantum) else { return false }
+        return CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, address: address)
     }
     
     func fetchAllQuantums(modelContext: ModelContext? ) -> [SignedQuantum] {

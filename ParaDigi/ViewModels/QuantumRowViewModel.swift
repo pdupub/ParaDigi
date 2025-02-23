@@ -24,7 +24,6 @@ class QuantumRowViewModel: ObservableObject {
         self.last = quantum.unsignedQuantum.last == "" ? "First Quantum" : "@\(quantum.unsignedQuantum.last)"
         self.nickName = userInfo?["nickname"]?.displayText ?? "Loading user info..."
         self.avatar = userInfo?["avatar"]?.displayText ?? ""
-        
     }
     
     func getDisplayImgs() -> [UIImage] {
