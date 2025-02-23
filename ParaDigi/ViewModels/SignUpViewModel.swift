@@ -23,11 +23,6 @@ class SignUpViewModel: ObservableObject {
     @Published var isUserCreated: Bool = false
     
     private var modelContext: ModelContext? // 直接持有 modelContext
-    private var quantumManager: QuantumManager
-
-    init() {
-        self.quantumManager = QuantumManager()
-    }
     
     func setModelContext(modelContext: ModelContext) {
         self.modelContext = modelContext
@@ -109,12 +104,12 @@ class SignUpViewModel: ObservableObject {
                 contents.append(QContent(order:index*2 + 3, data: AnyCodable(value), format: "str")) // Value
             }
             
-            guard let signedQuantum = self.quantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeIntegration, modelContext: modelContext) else {
+            guard let signedQuantum = QuantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeIntegration, modelContext: modelContext) else {
                 print("create signedQuantum fail")
                 return
             }
             
-            self.quantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
+            QuantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
             print("save quantum to local success")
             
 //            self.quantumManager.sendQuantumToFirebase(signedQuantum)

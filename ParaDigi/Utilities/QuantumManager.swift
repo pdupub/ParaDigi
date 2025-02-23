@@ -56,7 +56,7 @@ class QuantumManager {
         return displayImages
     }
     
-    func getCurrentSigner() -> String? {
+    static func getCurrentSigner() -> String? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
         return CompatibleCrypto.generateAddress(publicKey: publicKey!)
@@ -77,7 +77,7 @@ class QuantumManager {
         return data
     }
     
-    func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
+    static func createSignedQuantum(_ contents: [QContent], qtype: Int, modelContext: ModelContext?) -> SignedQuantum? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
         let address = CompatibleCrypto.generateAddress(publicKey: publicKey!)
@@ -114,7 +114,7 @@ class QuantumManager {
         return CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, address: address)
     }
     
-    func fetchAllQuantums(modelContext: ModelContext? ) -> [SignedQuantum] {
+    static func fetchAllQuantums(modelContext: ModelContext? ) -> [SignedQuantum] {
         guard let modelContext = modelContext else { return []}
         let descriptor = FetchDescriptor<SignedQuantum>(sortBy: [SortDescriptor(\.id, order: .reverse)] // 按年龄降序
 )
@@ -127,7 +127,7 @@ class QuantumManager {
 
     
     // 查询某个 signer 的地址，并按 nonce 排序，取第一个
-    func getSignerWithMaxNonce(signer: String, modelContext: ModelContext?) -> SignedQuantum? {
+    static func getSignerWithMaxNonce(signer: String, modelContext: ModelContext?) -> SignedQuantum? {
         guard let modelContext = modelContext else { return nil }
                                                                                                                         
         let descriptor = FetchDescriptor<SignedQuantum>(
@@ -147,7 +147,7 @@ class QuantumManager {
     }
     
     // 保存 Quantum 到本地 SwiftData
-    func saveQuantumToLocal(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
+    static func saveQuantumToLocal(_ quantum: SignedQuantum, modelContext: ModelContext? ) {
         // SwiftData 存储逻辑
         guard let modelContext = modelContext else { return }
         modelContext.insert(quantum)
@@ -160,13 +160,13 @@ class QuantumManager {
     }
     
     // 发送 Quantum 到 Firebase
-    func sendQuantumToFirebase(_ quantum: SignedQuantum) {
+    static func sendQuantumToFirebase(_ quantum: SignedQuantum) {
         let ref = Database.database().reference().child("quantums")
         let quantumData = try? JSONEncoder().encode(quantum)
         ref.child(quantum.id.uuidString).setValue(quantumData)
     }
 
-    func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
+    static func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
         var userInfoDict : [String:QContent] = [:]
         
         guard let modelContext = modelContext else { return userInfoDict}
