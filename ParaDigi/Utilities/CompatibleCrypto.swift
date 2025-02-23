@@ -12,12 +12,14 @@ import Foundation
 struct CompatibleCrypto {
     // 生成随机私钥
     static func generatePrivateKey() -> Data {
-        var key = Data(count: 32) // 私钥长度为 32 字节
-        let result = key.withUnsafeMutableBytes {
-            SecRandomCopyBytes(kSecRandomDefault, 32, $0.baseAddress!)
-        }
-        assert(result == errSecSuccess, "Failed to generate secure random bytes")
-        return key
+//        var key = Data(count: 32) // 私钥长度为 32 字节
+//        let result = key.withUnsafeMutableBytes {
+//            SecRandomCopyBytes(kSecRandomDefault, 32, $0.baseAddress!)
+//        }
+//        assert(result == errSecSuccess, "Failed to generate secure random bytes")
+//        return key
+        
+        return try! secp256k1.Recovery.PrivateKey().dataRepresentation
     }
     
     // 从 secp256k1 私钥生成公钥
