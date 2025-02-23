@@ -56,5 +56,6 @@ struct FeedDetailView: View {
             Spacer()
            
         }
+        .padding()
     }
 }
