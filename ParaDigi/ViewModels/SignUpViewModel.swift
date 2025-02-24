@@ -112,8 +112,6 @@ class SignUpViewModel: ObservableObject {
             QuantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
             print("save quantum to local success")
             
-//            self.quantumManager.sendQuantumToFirebase(signedQuantum)
-//            print("send to Firebase success")
             isUserCreated = true
         }
     }

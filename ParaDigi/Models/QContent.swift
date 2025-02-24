@@ -21,10 +21,12 @@ class QContent: Identifiable, Encodable {
         let modifiedUUIDString = orderPrefix + randomSuffix
         // 生成修改后的 UUID
         self.id = UUID(uuidString: modifiedUUIDString) ?? UUID()
-        
-        
         self.format = format
-        self.data = try? JSONEncoder().encode(data).base64EncodedString()  // 将 Data 转为 Base64 字符串
+        
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .sortedKeys
+        jsonEncoder.dataEncodingStrategy = .base64
+        self.data = try? jsonEncoder.encode(data).base64EncodedString()  // 将 Data 转为 Base64 字符串
     }
 
     // 解码 `data` 为 AnyCodable

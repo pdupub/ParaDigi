@@ -9,12 +9,18 @@ struct CryptoTestView: View {
     @State private var verificationResult: String = "" // 签名验证结果
     @State private var copyMessage: String = "" // 显示复制成功的信息
 
+    
+    @Environment(\.modelContext) private var modelContext // 获取数据上下文
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
                 Text("Swift Crypto Test")
                     .font(.largeTitle)
                     .bold()
+                Button("Verify Signed Quantum") {
+                    verifySignedQuantum()
+                }
 
 //                Button("Generate Keys & Address") {
 //                    generateKeysAndAddress()
@@ -27,7 +33,11 @@ struct CryptoTestView: View {
 
                 Group {
                     ClickableText(title: "Private Key:", content: privateKey)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
                     ClickableText(title: "Public Key:", content: publicKey)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
                     ClickableText(title: "Address:", content: address)
                 }
 
@@ -47,6 +57,8 @@ struct CryptoTestView: View {
 //                .cornerRadius(8)
 
                 ClickableText(title: "Signature:", content: signature)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
 
 //                Button("Verify Signature") {
 //                    verifySignature()
@@ -72,8 +84,8 @@ struct CryptoTestView: View {
             }
             .onAppear{
                 generateKeysAndAddress()
-                signMessage()
-                verifySignature()
+//                signMessage()
+//                verifySignature()
             }
             .padding()
         }
@@ -105,6 +117,16 @@ struct CryptoTestView: View {
         let address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
 
         let isValid = CompatibleCrypto.verifySignature(message: messageData, signature: signatureData, address: address)
+        verificationResult = isValid ? "Valid" : "Invalid"
+    }
+    
+    private func verifySignedQuantum() {
+        var qs : [QContent] = []
+        qs.append(QContent(order: 0, data: AnyCodable(message), format: "str"))
+        qs.append(QContent(order: 1, data: AnyCodable(123), format: "int"))
+        
+        guard let signedQuantum = QuantumManager.createSignedQuantum(qs, qtype: 0, modelContext: modelContext) else { return }
+        let isValid = QuantumManager.verifyQuantumSignature(signedQuantum)
         verificationResult = isValid ? "Valid" : "Invalid"
     }
 }

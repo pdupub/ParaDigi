@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftData
-import Firebase
+import SwiftUI
 
 class QuantumManager {
     
@@ -89,28 +89,35 @@ class QuantumManager {
         if qtype != 0 { type = 1}
 
         if let lastQuantum = getSignerWithMaxNonce(signer: address, modelContext: modelContext){
-            print("query result nonce: \(lastQuantum.unsignedQuantum.nonce)")
+//            print("query result nonce: \(lastQuantum.unsignedQuantum.nonce)")
             nonce = lastQuantum.unsignedQuantum.nonce + 1
             last = lastQuantum.signature!
             references.append(last)
         }
         let unsignedQuantum = UnsignedQuantum(contents: contents, last: last, nonce: nonce, references: references, type: type)
         //
-        if let jsonData = try? JSONEncoder().encode(unsignedQuantum) {
-            if let _ = String(data: jsonData, encoding: .utf8) {
-                let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
-                let signature = signatureData!.map { String(format: "%02x", $0) }.joined()
-                return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
-            }
-        }
-        return nil
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .sortedKeys
+        jsonEncoder.dataEncodingStrategy = .base64
+        guard let jsonData = try? jsonEncoder.encode(unsignedQuantum)  else { return nil }
+//        guard let jsonStr = String(data: jsonData, encoding: .utf8) else { return nil }
+//        print("signedJsonStr :\n \(jsonStr)")
+        let signatureData = CompatibleCrypto.signMessage(privateKey: privateKeyData, message: jsonData)
+        let signature = signatureData!.map { String(format: "%02x", $0) }.joined()
+        return SignedQuantum(unsignedQuantum: unsignedQuantum, signature: signature, signer: address)
+
     }
     
     static func verifyQuantumSignature(_ signedQuantum: SignedQuantum) -> Bool {
         guard let address = signedQuantum.signer else { return false }
         guard let signature = signedQuantum.signature else { return false }
         guard let signatureData = hexStringToData(hexString: signature) else { return false }
-        guard let jsonData = try? JSONEncoder().encode(signedQuantum.unsignedQuantum) else { return false }
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .sortedKeys
+        jsonEncoder.dataEncodingStrategy = .base64
+        guard let jsonData = try? jsonEncoder.encode(signedQuantum.unsignedQuantum) else { return false }
+//        guard let jsonStr = String(data: jsonData, encoding: .utf8) else {return false}
+//        print("verifyJsonStr :\n \(jsonStr)")
         return CompatibleCrypto.verifySignature(message: jsonData, signature: signatureData, address: address)
     }
     
@@ -159,13 +166,6 @@ class QuantumManager {
         }
     }
     
-    // 发送 Quantum 到 Firebase
-    static func sendQuantumToFirebase(_ quantum: SignedQuantum) {
-        let ref = Database.database().reference().child("quantums")
-        let quantumData = try? JSONEncoder().encode(quantum)
-        ref.child(quantum.id.uuidString).setValue(quantumData)
-    }
-
     static func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
         var userInfoDict : [String:QContent] = [:]
         
