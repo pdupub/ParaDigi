@@ -12,6 +12,7 @@ class QContent: Identifiable, Encodable {
     @Attribute(.unique) var id: UUID // 确保每条数据唯一
     var data: String? // 将 Data 转换为 String 类型存储
     var format: String
+    var search: String?
     
     // 存储 AnyCodable 对象并将其转换为字符串格式
     init(order:Int, data: AnyCodable, format: String) {
@@ -27,6 +28,8 @@ class QContent: Identifiable, Encodable {
         jsonEncoder.outputFormatting = .sortedKeys
         jsonEncoder.dataEncodingStrategy = .base64
         self.data = try? jsonEncoder.encode(data).base64EncodedString()  // 将 Data 转为 Base64 字符串
+        
+        self.search = self.displayText
     }
 
     // 解码 `data` 为 AnyCodable

@@ -139,7 +139,7 @@ class QuantumManager {
         // Step 1: 查找符合条件的 QContent
         let descriptorContent = FetchDescriptor<QContent>(
             predicate: #Predicate { content in
-                content.data?.contains(keyword) == true
+                content.search?.contains(keyword) == true
             }
         )
         
