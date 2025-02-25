@@ -135,14 +135,40 @@ class QuantumManager {
     
     static func searchQauntumsByKeyword(_ keyword:String, modelContext: ModelContext? ) -> [SignedQuantum] {
         guard let modelContext = modelContext else { return []}
-        let descriptor = FetchDescriptor<SignedQuantum>(
+                        
+        // Step 1: 查找符合条件的 QContent
+        let descriptorContent = FetchDescriptor<QContent>(
+            predicate: #Predicate { content in
+                content.data?.contains(keyword) == true
+            }
+        )
+        
+        guard let matchingContents = try? modelContext.fetch(descriptorContent) else { return [] }
+        
+        var relatedQuantums: [SignedQuantum] = []
+        let descriptorQuantum = FetchDescriptor<SignedQuantum>(
             sortBy: [SortDescriptor(\.id, order: .reverse)] // 按年龄降序
         )
-        let signedQuantumList = (try? modelContext.fetch(descriptor)) ?? []
-        for index in 0..<signedQuantumList.count {
-            signedQuantumList[index].unsignedQuantum.contents = signedQuantumList[index].unsignedQuantum.sortedContents()
+        let allQuantums = (try? modelContext.fetch(descriptorQuantum)) ?? []
+        
+        // 遍历所有 SignedQuantum，检查其 contents
+        for quantum in allQuantums {
+            if let contents = quantum.unsignedQuantum.contents {
+                // Step 3: 如果当前 SignedQuantum 的 contents 中包含符合条件的 QContent，则添加到结果列表
+                let matchingContent = contents.first { content in
+                    matchingContents.contains { matchingContent in
+                        content.id == matchingContent.id // 根据 content 的 id 进行匹配
+                    }
+                }
+                
+                if matchingContent != nil {
+                    quantum.unsignedQuantum.contents = quantum.unsignedQuantum.sortedContents()
+                    relatedQuantums.append(quantum)
+                }
+            }
         }
-        return signedQuantumList
+        
+        return relatedQuantums
     }
     
     // 查询某个 signer 的地址，并按 nonce 排序，取第一个
