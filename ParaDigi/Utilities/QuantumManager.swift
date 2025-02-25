@@ -133,6 +133,18 @@ class QuantumManager {
     }
 
     
+    static func searchQauntumsByKeyword(_ keyword:String, modelContext: ModelContext? ) -> [SignedQuantum] {
+        guard let modelContext = modelContext else { return []}
+        let descriptor = FetchDescriptor<SignedQuantum>(
+            sortBy: [SortDescriptor(\.id, order: .reverse)] // 按年龄降序
+        )
+        let signedQuantumList = (try? modelContext.fetch(descriptor)) ?? []
+        for index in 0..<signedQuantumList.count {
+            signedQuantumList[index].unsignedQuantum.contents = signedQuantumList[index].unsignedQuantum.sortedContents()
+        }
+        return signedQuantumList
+    }
+    
     // 查询某个 signer 的地址，并按 nonce 排序，取第一个
     static func getSignerWithMaxNonce(signer: String, modelContext: ModelContext?) -> SignedQuantum? {
         guard let modelContext = modelContext else { return nil }
