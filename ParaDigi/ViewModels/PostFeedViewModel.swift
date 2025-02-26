@@ -11,6 +11,19 @@ import SwiftData
 class PostFeedViewModel: ObservableObject {
     private var modelContext: ModelContext? // 直接持有 modelContext
     @Published var textContent: String = "" // 绑定的输入文本
+    private var userInfoDict: [String: [String: QContent]] = [:] // 存储每个 signer 的用户信息
+
+    func fetchUserInfo(for signer: String, modelContext: ModelContext) -> [String: QContent]?{
+        if !self.userInfoDict.keys.contains(signer) {
+            let userInfo = QuantumManager.getUserInfo(signer:signer, modelContext: modelContext)
+            if !userInfo.isEmpty {
+                // update userInfoDict
+                self.userInfoDict[signer] = userInfo
+            }
+        }
+        return self.userInfoDict[signer]
+    }
+    
     
     func setModelContext(modelContext: ModelContext) {
         self.modelContext = modelContext
