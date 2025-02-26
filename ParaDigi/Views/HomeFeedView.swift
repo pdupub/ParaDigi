@@ -16,30 +16,36 @@ struct HomeFeedView: View {
 //    @Query(sort: \UnsignedQuantum.nonce, order: .reverse) private var uqs: [UnsignedQuantum] // 按照nonce排序
     @StateObject private var viewModel = HomeFeedViewModel() // 引用ViewModel
     @State private var showAddTextView = false // 控制跳转页面的状态
-    @State private var isLinkActive = false // 控制跳转的激活状态
     @Environment(\.modelContext) private var modelContext // 获取数据上下文
-
+    @State private var navigationPath = NavigationPath()
+    
     var body: some View {
         ZStack {
-            NavigationView {
-                List(viewModel.qs) { quantum in
-                    if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
-                        NavigationLink(destination: FeedDetailView(quantum: quantum, userInfo: user ), isActive: $isLinkActive) {
-                            VStack(alignment: .leading) {
-                                QuantumRowView(quantum: quantum, userInfo: user)
+            VStack(alignment: .leading) {
+                NavigationStack(path: $navigationPath) {
+                    List(viewModel.qs) { quantum in
+                        if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                            NavigationLink(value: quantum) {
+                                VStack(alignment: .leading) {
+                                    QuantumRowView(quantum: quantum, userInfo: user)
+                                }
                             }
                         }
                     }
+                    .listStyle(PlainListStyle())
+                    .navigationDestination(for: SignedQuantum.self) { quantum in
+                        if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                            FeedDetailView(quantum: quantum, userInfo: user)
+                        }
+                    }
                 }
-                .listStyle(PlainListStyle())
+                .onAppear {
+                    // 当视图出现时，自动使 TextEditor 获取焦点
+                    viewModel.setModelContext(modelContext: modelContext)
+                }
             }
-            .onAppear {
-                // 当视图出现时，自动使 TextEditor 获取焦点
-                viewModel.setModelContext(modelContext: modelContext)
-            }
-
             
-            if !isLinkActive { // 只有在没有跳转时显示按钮
+            if navigationPath.isEmpty{ // 只有在没有跳转时显示按钮
                 
                 // 悬浮按钮
                 VStack {
