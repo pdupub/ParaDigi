@@ -57,7 +57,8 @@ struct FeedDetailView: View {
             }
             
             TextField("You want to Reply ...", text: $pfvModel.textContent, onCommit: {
-                pfvModel.saveItem(images: [])
+                pfvModel.createPost(images: [], replyTo: self.quantum)
+                pfvModel.textContent = ""
             })
             .textFieldStyle(RoundedBorderTextFieldStyle()) // 使用圆角样式
             .padding()

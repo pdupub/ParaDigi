@@ -16,10 +16,12 @@ class PostFeedViewModel: ObservableObject {
         self.modelContext = modelContext
     }
 
-    func saveItem(images: [UIImage]) {
+    
+    
+    func createPost(images: [UIImage], replyTo: SignedQuantum?) {
         guard let modelContext = modelContext else { return }
         var contents = [QContent]()
-
+        
         if !textContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             // 创建 QContent 数据对象
             let txtContent = QContent(order:0, data: AnyCodable(textContent), format: "txt")
@@ -36,6 +38,11 @@ class PostFeedViewModel: ObservableObject {
             }
         }
 
+        if let targetQuantum = replyTo {
+            let replyContent = QContent(order: 0, data: AnyCodable(targetQuantum.signature!), format: "reply")
+            contents.append(replyContent)
+        }
+        
         if contents.count == 0 { return }
         
         guard let signedQuantum = QuantumManager.createSignedQuantum(contents, qtype: Constants.quantumTypeInformation, modelContext: modelContext) else {

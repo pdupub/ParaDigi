@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 class QuantumManager {
-    
+
     // 自定义方法返回字符串内容
     static func getDisplayTxt(quantum: SignedQuantum) -> String {
         var displayTxt = ""

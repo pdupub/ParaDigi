@@ -63,7 +63,7 @@ struct PostFeedView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Post") {
-                        viewModel.saveItem(images: selectedImages) // 传递图片
+                        viewModel.createPost(images: selectedImages, replyTo: nil) // 传递图片
                         dismiss()
                     }
                     .foregroundColor(Color.primary)
