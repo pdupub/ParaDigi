@@ -13,6 +13,9 @@ struct FeedDetailView: View {
 
     // 创建一个 view model 实例
     @StateObject private var viewModel: QuantumRowViewModel
+    @StateObject private var pfvModel = PostFeedViewModel()
+    @Environment(\.modelContext) private var modelContext // 获取数据上下文
+
     init(quantum: SignedQuantum, userInfo: [String: QContent]?) {
         self.quantum = quantum
         self.userInfo = userInfo
@@ -53,6 +56,15 @@ struct FeedDetailView: View {
                     .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
             }
             
+            TextField("You want to Reply ...", text: $pfvModel.textContent, onCommit: {
+                pfvModel.saveItem(images: [])
+            })
+            .textFieldStyle(RoundedBorderTextFieldStyle()) // 使用圆角样式
+            .padding()
+            .submitLabel(.search) // 将键盘上的“Return”按钮改为“Search”
+            .onAppear{
+                pfvModel.setModelContext(modelContext: modelContext)
+            }
             Spacer()
            
         }
