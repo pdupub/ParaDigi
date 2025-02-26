@@ -16,8 +16,6 @@ class PostFeedViewModel: ObservableObject {
         self.modelContext = modelContext
     }
 
-    
-    
     func createPost(images: [UIImage], replyTo: SignedQuantum?) {
         guard let modelContext = modelContext else { return }
         var contents = [QContent]()

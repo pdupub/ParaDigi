@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import SwiftData
 
 // ViewModel 用于处理 Quantum 的数据逻辑
 class QuantumRowViewModel: ObservableObject {
@@ -39,4 +40,7 @@ class QuantumRowViewModel: ObservableObject {
         return QuantumManager.getDisplayTxt(quantum: quantum)
     }
     
+    func getQuantumReply(modelContext: ModelContext? ) -> [SignedQuantum] {
+        return QuantumManager.getQuantumReply(self.quantum, modelContext: modelContext)
+    }
 }

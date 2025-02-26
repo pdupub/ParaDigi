@@ -132,6 +132,11 @@ class QuantumManager {
         return signedQuantumList
     }
 
+    static func getQuantumReply(_ quantum: SignedQuantum, modelContext: ModelContext? ) -> [SignedQuantum] {
+        guard let signature = quantum.signature else {return []}
+        return searchQauntumsByKeyword(signature, modelContext: modelContext)
+  
+    }
     
     static func searchQauntumsByKeyword(_ keyword:String, modelContext: ModelContext? ) -> [SignedQuantum] {
         guard let modelContext = modelContext else { return []}
@@ -203,6 +208,8 @@ class QuantumManager {
             print("保存数据时发生错误: \(error)")
         }
     }
+    
+
     
     static func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
         var userInfoDict : [String:QContent] = [:]

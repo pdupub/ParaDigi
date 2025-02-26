@@ -56,6 +56,10 @@ struct FeedDetailView: View {
                     .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
             }
             
+            // 传递评论、转发、点赞和收藏数量
+            FeedActionsView(commentCount: viewModel.getQuantumReply(modelContext: modelContext).count, shareCount: 45, likeCount: 789, favoriteCount: 56)
+                .padding(.top, 10)
+            
             TextField("You want to Reply ...", text: $pfvModel.textContent, onCommit: {
                 pfvModel.createPost(images: [], replyTo: self.quantum)
                 pfvModel.textContent = ""
