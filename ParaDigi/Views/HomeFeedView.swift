@@ -36,6 +36,9 @@ struct HomeFeedView: View {
                     .navigationDestination(for: SignedQuantum.self) { quantum in
                         if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
                             FeedDetailView(quantum: quantum, userInfo: user)
+                                .onDisappear {
+                                    viewModel.refreshData()
+                                }
                         }
                     }
                 }

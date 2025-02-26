@@ -61,9 +61,6 @@ struct FeedDetailView: View {
                 FeedActionsView(commentCount: replys.count, shareCount: 45, likeCount: 789, favoriteCount: 56)
                     .padding(.top, 10)
                 
-                
-                
-                
                 NavigationView{
                     List(replys) { quantum in
                         if let user = pfvModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
@@ -81,7 +78,11 @@ struct FeedDetailView: View {
             
             TextField("You want to Reply ...", text: $pfvModel.textContent, onCommit: {
                 pfvModel.createPost(images: [], replyTo: self.quantum)
-                pfvModel.textContent = ""
+                // 清空输入框的内容
+                DispatchQueue.main.async {
+                    pfvModel.textContent = ""
+                }
+                self.replys = viewModel.getQuantumReply(modelContext: modelContext)
             })
             .textFieldStyle(RoundedBorderTextFieldStyle()) // 使用圆角样式
             .submitLabel(.done)
