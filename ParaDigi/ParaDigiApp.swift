@@ -59,8 +59,6 @@ struct MainView: View {
                 HomeFeedView()
             case .search:
                 SearchView()
-            case .messages:
-                MessagesView()
             case .settings:
                 SettingsView()
             case .testing:
@@ -73,15 +71,21 @@ struct MainView: View {
             Spacer()
             // Tab bar at the bottom
             HStack {
+                Spacer()
                 TabButton(tab: .home, selectedTab: $selectedTab)
                 Spacer()
+                Spacer()
+
                 TabButton(tab: .search, selectedTab: $selectedTab)
                 Spacer()
-                TabButton(tab: .messages, selectedTab: $selectedTab)
                 Spacer()
+
                 TabButton(tab: .settings, selectedTab: $selectedTab)
                 Spacer()
+                Spacer()
+
                 TabButton(tab: .testing, selectedTab: $selectedTab)
+                Spacer()
             }
             .padding()
             .padding(.bottom, -16)
@@ -93,7 +97,6 @@ struct MainView: View {
 enum Tab: String {
     case home = "house.fill"
     case search = "magnifyingglass"
-    case messages = "envelope.fill"
     case settings = "gearshape.fill"
     case testing = "questionmark.circle"
 }
