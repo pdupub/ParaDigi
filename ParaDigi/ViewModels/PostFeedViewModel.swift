@@ -43,15 +43,6 @@ class PostFeedViewModel: ObservableObject {
             return
         }
         
-        
-//        let verifyResult = QuantumManager.verifyQuantumSignature(signedQuantum)
-//        print("verify result is : \(verifyResult)")
-//        print("signature is : \(signedQuantum.signature)")
-//        print("address is : \(signedQuantum.signer)")
-//        
-//        
-//        print("====================================")
-        
         QuantumManager.saveQuantumToLocal(signedQuantum, modelContext: modelContext)
         print("save quantum to local success")
         
