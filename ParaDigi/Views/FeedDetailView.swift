@@ -49,6 +49,8 @@ struct FeedDetailView: View {
                                     QuantumRowView(quantum: quantum, userInfo: user)
                                 }
                             }
+                            .listRowInsets(EdgeInsets())
+
                         }
                     }
                     .listStyle(PlainListStyle())

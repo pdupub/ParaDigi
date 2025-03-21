@@ -32,6 +32,8 @@ struct SearchView: View {
                                 
                             }
                         }
+                        .listRowInsets(EdgeInsets())
+
                     }
                 }
                 .listStyle(PlainListStyle())
