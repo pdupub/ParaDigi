@@ -24,7 +24,7 @@ struct QuantumRowView: View {
     var body: some View {
         HStack(alignment: .top) {
             AvatarView(avatarBase64: viewModel.avatar)
-                .padding(.horizontal, 4)
+                .padding(6)
             
             VStack(alignment: .leading) {
                 HStack(alignment: .top) {
@@ -59,7 +59,7 @@ struct QuantumRowView: View {
                 }
             }
         }
-        .padding(.bottom)
+        .padding()
     }
 }
 

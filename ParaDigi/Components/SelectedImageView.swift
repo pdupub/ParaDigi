@@ -21,7 +21,7 @@ struct SelectedImageView: View {
                     HStack(spacing: 0) {
                         Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: images[0], targetAspectRatio: 16/9))
                             .resizable()
-                            .scaledToFill()
+//                            .scaledToFill()
                             .clipped()
                     }
                 }
@@ -32,7 +32,7 @@ struct SelectedImageView: View {
                         ForEach(images, id: \.self) { image in
                             Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: image, targetAspectRatio: 8/9))
                                 .resizable()
-                                .scaledToFill()
+//                                .scaledToFill()
                                 .clipped()
                         }
                     }
@@ -43,14 +43,14 @@ struct SelectedImageView: View {
                     HStack(spacing: 0) {
                         Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: images[0], targetAspectRatio: 8/9))
                             .resizable()
-                            .scaledToFill()
+//                            .scaledToFill()
                             .clipped()
                         
                         VStack(spacing: 0) {
                             ForEach(images.suffix(from: 1), id: \.self) { image in
                                 Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: image, targetAspectRatio: 16/9))
                                     .resizable()
-                                    .scaledToFill()
+//                                    .scaledToFill()
                                     .clipped()
                             }
                         }
@@ -63,7 +63,7 @@ struct SelectedImageView: View {
                         ForEach(images.prefix(2), id: \.self) { image in
                             Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: image, targetAspectRatio: 16/9))
                                 .resizable()
-                                .scaledToFill()
+//                                .scaledToFill()
                                 .clipped()
                         }
                     }
@@ -71,7 +71,7 @@ struct SelectedImageView: View {
                         ForEach(images.suffix(2), id: \.self) { image in
                             Image(uiImage: ImageUtilities.cropImageToAspectRatio(image: image, targetAspectRatio: 16/9))
                                 .resizable()
-                                .scaledToFill()
+//                                .scaledToFill()
                                 .clipped()
                         }
                     }

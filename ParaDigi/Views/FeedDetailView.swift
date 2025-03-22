@@ -34,7 +34,7 @@ struct FeedDetailView: View {
                     SelectedImageView(images: viewModel.getDisplayImgs())
                         .cornerRadius(10)  // 设置圆角
                         .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
-                        .padding()
+//                        .padding()
                 }
                 
                 // 传递评论、转发、点赞和收藏数量

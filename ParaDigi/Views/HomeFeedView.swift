@@ -9,28 +9,40 @@ import SwiftUI
 import SwiftData
 import Firebase
 
-
 struct HomeFeedView: View {
-
-    @Environment(\.colorScheme) var colorScheme // 声明环境变量，获取当前颜色模式
-//    @Query(sort: \UnsignedQuantum.nonce, order: .reverse) private var uqs: [UnsignedQuantum] // 按照nonce排序
-    @StateObject private var viewModel = HomeFeedViewModel() // 引用ViewModel
-    @State private var showAddTextView = false // 控制跳转页面的状态
-    @Environment(\.modelContext) private var modelContext // 获取数据上下文
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject private var viewModel = HomeFeedViewModel()
+    @State private var showAddTextView = false
+    @Environment(\.modelContext) private var modelContext
     @State private var navigationPath = NavigationPath()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
                 NavigationStack(path: $navigationPath) {
-                    List(viewModel.qs) { quantum in
-                        if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
-                            NavigationLink(value: quantum) {
-                                VStack(alignment: .leading) {
-                                    QuantumRowView(quantum: quantum, userInfo: user)
+                    List {
+                        ForEach(viewModel.qs) { quantum in
+                            if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                                // 使用 ZStack 移除尖括号
+                                ZStack {
+                                    NavigationLink(value: quantum, label: {
+                                        EmptyView() // 隐藏默认的尖括号
+                                    })
+                                    .opacity(0) // 确保 NavigationLink 不显示任何视觉元素
+                                    
+                                    // 自定义点击区域
+                                    Button(action: {
+                                        navigationPath.append(quantum) // 手动推送导航
+                                    }) {
+                                        VStack(alignment: .leading) {
+                                            QuantumRowView(quantum: quantum, userInfo: user)
+                                        }
+                                    }
+                                    .buttonStyle(PlainButtonStyle()) // 移除按钮的默认样式
                                 }
+                                .listRowInsets(EdgeInsets())
+                                .listRowSeparatorTint(.gray)
                             }
-                            .listRowInsets(EdgeInsets())
                         }
                     }
                     .listStyle(PlainListStyle())
@@ -44,14 +56,11 @@ struct HomeFeedView: View {
                     }
                 }
                 .onAppear {
-                    // 当视图出现时，自动使 TextEditor 获取焦点
                     viewModel.setModelContext(modelContext: modelContext)
                 }
             }
             
-            if navigationPath.isEmpty{ // 只有在没有跳转时显示按钮
-                
-                // 悬浮按钮
+            if navigationPath.isEmpty {
                 VStack {
                     Spacer()
                     HStack {
@@ -64,7 +73,7 @@ struct HomeFeedView: View {
                                 .font(.system(size: 24))
                                 .frame(width: 60, height: 60)
                                 .background(Color.primary)
-                                .foregroundColor(colorScheme == .light ? Color.white : Color.black) // 反向图标颜色
+                                .foregroundColor(colorScheme == .light ? Color.white : Color.black)
                                 .foregroundColor(.white)
                                 .clipShape(Circle())
                                 .shadow(radius: 4)
@@ -75,10 +84,9 @@ struct HomeFeedView: View {
             }
         }
         .sheet(isPresented: $showAddTextView, onDismiss: {
-            // 在 PostView 关闭后刷新 HomeFeedView 的数据
             viewModel.refreshData()
         }) {
-            PostFeedView() // 弹出输入页面
+            PostFeedView()
         }
     }
 }

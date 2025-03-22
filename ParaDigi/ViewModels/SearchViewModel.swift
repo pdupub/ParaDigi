@@ -14,7 +14,7 @@ class SearchViewModel: ObservableObject {
     @Published var qs :  [SignedQuantum] = []
     private var modelContext: ModelContext? // 直接持有 modelContext
     private var userInfoDict: [String: [String: QContent]] = [:] // 存储每个 signer 的用户信息
-
+    @Published var searchText: String = "" // 新增属性，用于存储搜索文本
 
     func setModelContext(modelContext: ModelContext) {
         self.modelContext = modelContext
