@@ -43,7 +43,7 @@ struct ParaDigiApp: App {
         WindowGroup {
 //            MainView()
             SplashScreenView() // 设置启动时的 SplashScreen 视图
-                .preferredColorScheme(.light)
+//                .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)
     }

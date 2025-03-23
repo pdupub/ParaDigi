@@ -9,6 +9,8 @@ import SwiftUI
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel() // 引用ViewModel
     @Environment(\.modelContext) private var modelContext // 获取数据上下文
+    @State private var navigationPath = NavigationPath()
+
     var body: some View {
         VStack {
             // 顶部的单行输入框
@@ -22,20 +24,41 @@ struct SearchView: View {
                 viewModel.setModelContext(modelContext: modelContext)
             }
             
-            NavigationView {
-                List(viewModel.qs) { quantum in
-                    if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
-                        NavigationLink(destination: FeedDetailView(quantum: quantum, userInfo: user )) {
-                            VStack(alignment: .leading) {
-                                QuantumRowView(quantum: quantum, userInfo: user)
+            NavigationStack(path: $navigationPath) {
+                List{
+                    ForEach(viewModel.qs) { quantum in
+                        if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                            ZStack {
+                                NavigationLink(value: quantum, label: {
+                                    EmptyView() // 隐藏默认的尖括号
+                                })
+                                .opacity(0) // 确保 NavigationLink 不显示任何视觉元素
                                 
+                                // 自定义点击区域
+                                Button(action: {
+                                    navigationPath.append(quantum) // 手动推送导航
+                                }) {
+                                    VStack(alignment: .leading) {
+                                        QuantumRowView(quantum: quantum, userInfo: user)
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle()) // 移除按钮的默认样式
                             }
+                            .listRowInsets(EdgeInsets())
+                            .listRowSeparatorTint(.gray)
+                            
                         }
-                        .listRowInsets(EdgeInsets())
-
                     }
                 }
                 .listStyle(PlainListStyle())
+                .navigationDestination(for: SignedQuantum.self) { quantum in
+                    if let user = viewModel.fetchUserInfo(for: quantum.signer!, modelContext: modelContext) {
+                        FeedDetailView(quantum: quantum, userInfo: user)
+                            .onDisappear {
+//                                viewModel.refreshData()
+                            }
+                    }
+                }
             }
             .onAppear {
                 // 当视图出现时，自动使 TextEditor 获取焦点
