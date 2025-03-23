@@ -60,14 +60,14 @@ struct MainView: View {
                 HomeFeedView()
             case .search:
                 SearchView()
-            case .settings:
-                SettingsView()
             case .testing:
 //                FBTestingView()
                 CryptoTestView()
 //                AnimateView()
 //                SignUpView()
 //                PrivateKeyLoginView()
+            case .profile:
+                ProfileView()
             }
             Spacer()
             // Tab bar at the bottom
@@ -81,11 +81,11 @@ struct MainView: View {
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .settings, selectedTab: $selectedTab)
+                TabButton(tab: .testing, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .testing, selectedTab: $selectedTab)
+                TabButton(tab: .profile, selectedTab: $selectedTab)
                 Spacer()
             }
             .padding()
@@ -98,8 +98,8 @@ struct MainView: View {
 enum Tab: String {
     case home = "house.fill"
     case search = "magnifyingglass"
-    case settings = "gearshape.fill"
     case testing = "questionmark.circle"
+    case profile = "person.circle.fill"
 }
 
 
