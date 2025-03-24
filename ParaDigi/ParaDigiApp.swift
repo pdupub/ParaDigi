@@ -43,7 +43,7 @@ struct ParaDigiApp: App {
         WindowGroup {
 //            MainView()
             SplashScreenView() // 设置启动时的 SplashScreen 视图
-//                .preferredColorScheme(.light)
+                .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)
     }
@@ -60,9 +60,10 @@ struct MainView: View {
                 HomeFeedView()
             case .search:
                 SearchView()
-            case .testing:
+            case .trusted:
+                TrustedContactsView()
 //                FBTestingView()
-                CryptoTestView()
+//                CryptoTestView()
 //                AnimateView()
 //                SignUpView()
 //                PrivateKeyLoginView()
@@ -81,7 +82,7 @@ struct MainView: View {
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .testing, selectedTab: $selectedTab)
+                TabButton(tab: .trusted, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
@@ -98,7 +99,7 @@ struct MainView: View {
 enum Tab: String {
     case home = "house.fill"
     case search = "magnifyingglass"
-    case testing = "questionmark.circle"
+    case trusted = "circle.grid.3x3"
     case profile = "person.circle.fill"
 }
 
