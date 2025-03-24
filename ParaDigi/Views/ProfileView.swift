@@ -161,7 +161,6 @@ struct ProfileView: View {
                 }
             }
             .listStyle(.insetGrouped) // 模仿设置应用的列表样式
-            .navigationTitle("Settings") // 已注释的部分保持英文
             .navigationBarTitleDisplayMode(.inline)
         }
     }

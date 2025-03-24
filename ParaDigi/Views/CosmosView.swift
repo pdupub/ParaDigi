@@ -61,8 +61,8 @@ let allVisibleUsers: [User] = trustedUsers + [
     )
 ]
 
-// TrustedContactsView
-struct TrustedContactsView: View {
+// CosmosView
+struct CosmosView: View {
     @State private var selectedTab: Int = 0 // 0: Trusted, 1: All Visible
     
     var body: some View {
@@ -85,7 +85,9 @@ struct TrustedContactsView: View {
                         UserRow(user: user)
                     }
                 }
-                .navigationTitle("Contacts")
+                .listStyle(PlainListStyle())
+                .ignoresSafeArea()
+                .navigationTitle("Cosmos")
             }
         }
     }

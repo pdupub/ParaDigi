@@ -87,8 +87,6 @@
 				B8CE36FC2D3A395600909848 /* FirebaseFirestore */,
 				B8CE371E2D3E24A700909848 /* FirebaseDatabase */,
 				B8CE37202D3E24A700909848 /* FirebaseStorage */,
-				B87B10A52D5DD58400E97F03 /* SQLite */,
-				B8C44AFD2D5DD7F800824AF1 /* SQLite */,
 				B8C44B352D5DD99E00824AF1 /* FirebaseStorage */,
 				B8015A4F2D630D780043D4FB /* secp256k1 */,
 			);
@@ -372,14 +370,6 @@
 		B8015A4F2D630D780043D4FB /* secp256k1 */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = secp256k1;
-		};
-		B87B10A52D5DD58400E97F03 /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SQLite;
-		};
-		B8C44AFD2D5DD7F800824AF1 /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SQLite;
 		};
 		B8C44B352D5DD99E00824AF1 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

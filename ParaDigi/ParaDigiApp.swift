@@ -60,8 +60,8 @@ struct MainView: View {
                 HomeFeedView()
             case .search:
                 SearchView()
-            case .trusted:
-                TrustedContactsView()
+            case .cosmos:
+                CosmosView()
 //                FBTestingView()
 //                CryptoTestView()
 //                AnimateView()
@@ -82,7 +82,7 @@ struct MainView: View {
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .trusted, selectedTab: $selectedTab)
+                TabButton(tab: .cosmos, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
@@ -99,7 +99,7 @@ struct MainView: View {
 enum Tab: String {
     case home = "house.fill"
     case search = "magnifyingglass"
-    case trusted = "circle.grid.3x3"
+    case cosmos = "circle.grid.3x3"
     case profile = "person.circle.fill"
 }
 
