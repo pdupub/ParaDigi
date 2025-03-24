@@ -10,33 +10,60 @@ import SwiftUI
 struct ProfileView: View {
     @State private var isAirplaneModeOn = false // 示例开关状态
     @State private var isNotificationsOn = true // 示例开关状态
-    @Environment(\.colorScheme) var colorScheme // 用于适配深色模式
+    
+    @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel = PostFeedViewModel()
+    
+    @AppStorage("isUserRegistered") private var isUserRegistered: Bool = false
+
     
     var body: some View {
         NavigationStack {
             List {
                 // 个人信息部分
                 Section {
-                    HStack {
-                        // 用户头像（示例）
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .frame(width: 60, height: 60)
-                            .foregroundColor(.gray)
-                        
-                        VStack(alignment: .leading) {
-                            Text("Peng Liu")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Text("Apple ID, iCloud, Media & Purchases") // 媒体与购买 -> Media & Purchases
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                    NavigationLink(destination: Text("Hello")) {
+                        HStack {
+                            if let b64 = viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText {
+                                if let imageData = Data(base64Encoded: b64) {
+                                    if let uiImage = UIImage(data: imageData) {
+                                        // 显示图片
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 60, height: 60)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                                            .shadow(radius: 3)
+                                    }
+                                }
+                            }else {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            
+                            
+                            VStack(alignment: .leading) {
+                                if let nickname = viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["nickname"]?.displayText {
+                                    Text(nickname)
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                } else {
+                                    Text("Anonymouse")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                }
+                                Text("ParaDigi ID, Last Signature & Nonce") // 媒体与购买 -> Media & Purchases
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
                         }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
                 }
                 
                 // 第一组设置：通用功能
@@ -102,30 +129,6 @@ struct ProfileView: View {
                     }
                 }
                 
-                // 第三组设置：显示与隐私
-                Section {
-                    // 显示与亮度（带箭头）
-                    NavigationLink {
-                        Text("Display & Brightness Settings Page") // 显示与亮度设置页面 -> Display & Brightness Settings Page
-                    } label: {
-                        HStack {
-                            Image(systemName: "sun.max.fill")
-                                .foregroundColor(.yellow)
-                            Text("Display & Brightness") // 显示与亮度 -> Display & Brightness
-                        }
-                    }
-                    
-                    // 隐私（带箭头）
-                    NavigationLink {
-                        Text("Privacy Settings Page") // 隐私设置页面 -> Privacy Settings Page
-                    } label: {
-                        HStack {
-                            Image(systemName: "hand.raised.fill")
-                                .foregroundColor(.blue)
-                            Text("Privacy") // 隐私 -> Privacy
-                        }
-                    }
-                }
                 
                 // 第四组设置：其他
                 Section {
@@ -158,24 +161,30 @@ struct ProfileView: View {
                                 .clipShape(Circle())
                         }
                     }
+                    
                 }
+                
+                // 底部：退出登录按钮
+                Section {
+                    Button(action: {
+                        // 在这里添加退出登录的逻辑
+                        isUserRegistered = false
+                    }) {
+                        Text("Sign Out")
+                            .font(.body)
+                            .foregroundColor(.red) // 红色文字，模仿 iOS 退出登录样式
+                            .frame(maxWidth: .infinity) // 让文字居中
+                    }
+                }
+
             }
             .listStyle(.insetGrouped) // 模仿设置应用的列表样式
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.setModelContext(modelContext: modelContext)
+            }
         }
     }
 }
 
-//struct ProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            ProfileView()
-//                .preferredColorScheme(.light)
-//                .previewDisplayName("Light Mode")
-//            
-//            ProfileView()
-//                .preferredColorScheme(.dark)
-//                .previewDisplayName("Dark Mode")
-//        }
-//    }
-//}
+

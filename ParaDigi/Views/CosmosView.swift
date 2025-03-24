@@ -86,6 +86,7 @@ struct CosmosView: View {
                     }
                 }
                 .listStyle(PlainListStyle())
+                .navigationBarTitleDisplayMode(.inline) // 设置标题为内联模式
                 .ignoresSafeArea()
                 .navigationTitle("Cosmos")
             }
