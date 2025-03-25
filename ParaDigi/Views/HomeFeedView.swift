@@ -75,6 +75,7 @@ struct HomeFeedView: View {
                                 .background(Color.primary)
                                 .foregroundColor(colorScheme == .light ? Color.white : Color.black)
                                 .foregroundColor(.white)
+                                .opacity(0.85)
                                 .clipShape(Circle())
                                 .shadow(radius: 4)
                         }

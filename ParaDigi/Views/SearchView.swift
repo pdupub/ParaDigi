@@ -25,6 +25,23 @@ struct SearchView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle()) // 使用圆角样式
                             .padding()
                             .submitLabel(.search) // 将键盘上的“Return”按钮改为“Search”
+                        
+                        if viewModel.qs.count == 0 {
+                            
+                            VStack {
+                                Text("\"The real voyage of discovery consists not in seeking new landscapes, but in having new eyes.\"")
+                                    .font(.body) // 正文字体，大小适中
+                                    .foregroundColor(.gray) // 灰色，柔和不刺眼
+                                    .multilineTextAlignment(.center) // 居中对齐
+                                    .padding(.horizontal, 40) // 水平留白，增加可读性
+                                
+                                Text("— Marcel Proust")
+                                    .font(.footnote) // 较小的字体用于署名
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 5)
+                            }
+                            .padding()
+                        }
                     }
                     List{
                         ForEach(viewModel.qs) { quantum in
