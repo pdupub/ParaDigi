@@ -91,14 +91,14 @@ struct ProfileView: View {
                         }
                     }
                     
-                    // 蓝牙（带箭头）
+                    // 静音（带箭头）
                     NavigationLink {
-                        Text("Bluetooth Settings Page") // 蓝牙设置页面 -> Bluetooth Settings Page
+                        Text("Mute Settings Page") // 静音设置页面 -> Mute Settings Page
                     } label: {
                         HStack {
-                            Image(systemName: "bluetooth")
-                                .foregroundColor(.blue)
-                            Text("Bluetooth") // 蓝牙 -> Bluetooth
+                            Image(systemName: "microphone.slash.fill")
+                                .foregroundColor(.cyan)
+                            Text("Mute") // 静音 -> Mute
                             Spacer()
                             Text("Off") // 已关闭 -> Off
                                 .foregroundColor(.gray)
