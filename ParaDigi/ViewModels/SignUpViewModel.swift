@@ -86,11 +86,14 @@ class SignUpViewModel: ObservableObject {
         if errorMessages.isEmpty {
             // 保存private key
             guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
-
-            if !KeychainHelper.save(key: Constants.defaultPrivateKey, data: privateKeyData) {
-                print("save private key to keychain fail")
-                return
-            }
+            
+            guard let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData) else { return }
+            
+            let address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
+            
+            if !KeychainHelper.save(key: "ParaDigiAddr:\(address)", data: privateKeyData ) { return }
+            
+            if !KeychainHelper.save(key: Constants.defaultPrivateKey, data: privateKeyData) { return }
             
             
             // 组装contents

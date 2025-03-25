@@ -13,7 +13,6 @@ struct SignUpView: View {
     @Environment(\.dismiss) var dismiss  // 用来关闭当前视图
     @AppStorage("isUserRegistered") private var isUserRegistered: Bool = false
 
-
     var body: some View {
         VStack {
             // 头像区域
@@ -108,6 +107,7 @@ struct SignUpView: View {
                     .foregroundColor(.red)
                     .padding(.top, 5)
             }
+            
             // 创建用户按钮
             Button("Create User") {
                 viewModel.createUser()
@@ -125,6 +125,7 @@ struct SignUpView: View {
             .background(Color.blue)
             .foregroundColor(.white)
             .cornerRadius(10)
+                    
         }
         .onAppear {
             viewModel.generateRandomImage()
