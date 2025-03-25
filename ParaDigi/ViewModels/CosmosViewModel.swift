@@ -18,6 +18,11 @@ class CosmosViewModel: ObservableObject {
     private var modelContext: ModelContext? // 直接持有 modelContext
     func setModelContext(modelContext: ModelContext) {
         self.modelContext = modelContext
+        
+        self.trustedUsers = QuantumManager.getVisibleUsers(modelContext: modelContext)
+        self.allVisibleUsers = trustedUsers
     }
+    
+    
     
 }

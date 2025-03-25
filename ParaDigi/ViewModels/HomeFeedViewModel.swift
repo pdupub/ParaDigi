@@ -31,7 +31,7 @@ class HomeFeedViewModel: ObservableObject {
     
     func fetchUserInfo(for signer: String, modelContext: ModelContext) -> StdUser?{
         if !self.userInfoDict.keys.contains(signer) {
-            let userInfo = QuantumManager.getUserInfo(signer:signer, modelContext: modelContext)
+            let userInfo = QuantumManager.getUser(signer:signer, modelContext: modelContext)
             if userInfo != nil{
                 // update userInfoDict
                 self.userInfoDict[signer] = userInfo

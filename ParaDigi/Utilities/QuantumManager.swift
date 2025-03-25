@@ -214,9 +214,33 @@ class QuantumManager {
         }
     }
     
-
+    static func getVisibleUsers(modelContext: ModelContext) -> [StdUser] {
+        var users : [StdUser] = []
+        var addrs : [String?] = []
+        let descriptor = FetchDescriptor<SignedQuantum>(
+                // 不加 predicate，表示查询所有记录
+                sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .forward)] // 可选排序
+            )
+            
+            do {
+                // 执行查询，获取所有 SignedQuantum
+                let signedQuantums = try modelContext.fetch(descriptor)
+                
+                // 提取所有 signer 并去重
+                addrs = Array(Set(signedQuantums.map { $0.signer }))
+                
+            } catch {
+                return users
+            }
+        for addr in addrs {
+            if let user = getUser(signer: addr!, modelContext: modelContext) {
+                users.append(user)
+            }
+        }
+        return users
+    }
     
-    static func getUserInfo(signer: String, modelContext: ModelContext?) -> StdUser? {
+    static func getUser(signer: String, modelContext: ModelContext?) -> StdUser? {
         var userInfoDict : [String:QContent] = [:]
         
         guard let modelContext = modelContext else { return nil}
