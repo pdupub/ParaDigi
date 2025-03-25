@@ -10,12 +10,12 @@ import SwiftUI
 struct QuantumRowView: View {
     
     var quantum: SignedQuantum // 接收一个 UnsignedQuantum 对象
-    var userInfo: [String: QContent]? // 用户信息作为参数传入
+    var userInfo: StdUser? // 用户信息作为参数传入
 
     // 创建一个 view model 实例
     @StateObject private var viewModel: QuantumRowViewModel
     
-    init(quantum: SignedQuantum, userInfo: [String: QContent]?) {
+    init(quantum: SignedQuantum, userInfo: StdUser?) {
         self.quantum = quantum
         self.userInfo = userInfo
         _viewModel = StateObject(wrappedValue: QuantumRowViewModel(quantum: quantum, userInfo: userInfo))

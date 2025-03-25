@@ -1,5 +1,5 @@
 //
-//  TabButton.swift
+//  MainTabButton.swift
 //  ParaDigi
 //
 //  Created by Peng Liu on 2025/1/16.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TabButton: View {
+struct MainTabButton: View {
     let tab: Tab
     @Binding var selectedTab: Tab
 

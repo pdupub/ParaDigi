@@ -74,19 +74,19 @@ struct MainView: View {
             // Tab bar at the bottom
             HStack {
                 Spacer()
-                TabButton(tab: .home, selectedTab: $selectedTab)
+                MainTabButton(tab: .home, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .search, selectedTab: $selectedTab)
+                MainTabButton(tab: .search, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .cosmos, selectedTab: $selectedTab)
+                MainTabButton(tab: .cosmos, selectedTab: $selectedTab)
                 Spacer()
                 Spacer()
 
-                TabButton(tab: .profile, selectedTab: $selectedTab)
+                MainTabButton(tab: .profile, selectedTab: $selectedTab)
                 Spacer()
             }
             .padding()

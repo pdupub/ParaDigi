@@ -24,19 +24,15 @@ struct ProfileView: View {
                 Section {
                     NavigationLink(destination: Text("Hello")) {
                         HStack {
-                            if let b64 = viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText {
-                                if let imageData = Data(base64Encoded: b64) {
-                                    if let uiImage = UIImage(data: imageData) {
-                                        // 显示图片
-                                        Image(uiImage: uiImage)
+                            if let user = viewModel.fetchDefaultUserInfo(modelContext: modelContext){
+                                user.avatarImage
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 60, height: 60)
                                             .clipShape(Circle())
                                             .overlay(Circle().stroke(Color.white, lineWidth: 1))
                                             .shadow(radius: 3)
-                                    }
-                                }
+                               
                             }else {
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
@@ -47,8 +43,8 @@ struct ProfileView: View {
                             
                             
                             VStack(alignment: .leading) {
-                                if let nickname = viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["nickname"]?.displayText {
-                                    Text(nickname)
+                                if let user = viewModel.fetchDefaultUserInfo(modelContext: modelContext){
+                                    Text(user.nickname)
                                         .font(.title2)
                                         .fontWeight(.bold)
                                 } else {

@@ -15,8 +15,9 @@ struct PostFeedView: View {
         NavigationView {
             VStack {
                 HStack(alignment: .top) {
-                    AvatarView(avatarBase64: viewModel.fetchDefaultUserInfo(modelContext: modelContext)?["avatar"]?.displayText)
-                    
+                    if let user = viewModel.fetchDefaultUserInfo(modelContext: modelContext) {
+                        AvatarView(avatarBase64: user.avatarBase64)
+                    }
                     ZStack(alignment: .topLeading) {
                         
                         TextEditor(text: $viewModel.textContent)

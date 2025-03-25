@@ -13,7 +13,7 @@ class SearchViewModel: ObservableObject {
     
     @Published var qs :  [SignedQuantum] = []
     private var modelContext: ModelContext? // 直接持有 modelContext
-    private var userInfoDict: [String: [String: QContent]] = [:] // 存储每个 signer 的用户信息
+    private var userInfoDict: [String: StdUser] = [:] // 存储每个 signer 的用户信息
     @Published var searchText: String = "" // 新增属性，用于存储搜索文本
 
     func setModelContext(modelContext: ModelContext) {
@@ -25,10 +25,10 @@ class SearchViewModel: ObservableObject {
     }
 
     
-    func fetchUserInfo(for signer: String, modelContext: ModelContext) -> [String: QContent]?{
+    func fetchUserInfo(for signer: String, modelContext: ModelContext) -> StdUser?{
         if !self.userInfoDict.keys.contains(signer) {
             let userInfo = QuantumManager.getUserInfo(signer:signer, modelContext: modelContext)
-            if !userInfo.isEmpty {
+            if userInfo != nil{
                 // update userInfoDict
                 self.userInfoDict[signer] = userInfo
             }

@@ -216,17 +216,16 @@ class QuantumManager {
     
 
     
-    static func getUserInfo(signer: String, modelContext: ModelContext?) -> [String:QContent]{
+    static func getUserInfo(signer: String, modelContext: ModelContext?) -> StdUser? {
         var userInfoDict : [String:QContent] = [:]
         
-        guard let modelContext = modelContext else { return userInfoDict}
+        guard let modelContext = modelContext else { return nil}
                                                                                                                         
         let descriptor = FetchDescriptor<SignedQuantum>(
             predicate: #Predicate { $0.signer == signer && $0.unsignedQuantum.type == 1 }, // Constants.quantumTypeIntegration},
             sortBy: [SortDescriptor(\.unsignedQuantum.nonce, order: .forward)] // 按年龄降序
         )
-  
-                                                                                                                
+
         do {
             let quantums = try modelContext.fetch(descriptor)
             for quantum in quantums{
@@ -249,6 +248,11 @@ class QuantumManager {
         } catch {
             print("Error fetching quantum data: \(error)")
         }
-        return userInfoDict
+        let nickname = userInfoDict["nickname"] != nil ? userInfoDict["nickname"]!.displayText : "Anonymous"
+        let avatarBase64 = userInfoDict["avatar"] != nil ? userInfoDict["avatar"]!.displayText : ""
+        
+        let user = StdUser(avatarBase64: avatarBase64, nickname: nickname, address: signer, nonce: 0, followCount: 0, lastUpdate: Date().addingTimeInterval(-7200), extra: userInfoDict)
+        
+        return user
     }
 }

@@ -19,12 +19,12 @@ class QuantumRowViewModel: ObservableObject {
     private var quantum: SignedQuantum
     
     // 初始化时传入 quantum 和 userInfo
-    init(quantum: SignedQuantum, userInfo: [String: QContent]?) {
+    init(quantum: SignedQuantum, userInfo: StdUser?) {
         self.quantum = quantum
         self.signature = (quantum.signature?.isEmpty ?? true) ? "" : "@\(quantum.signature!)"
         self.last = quantum.unsignedQuantum.last == "" ? "First Quantum" : "@\(quantum.unsignedQuantum.last)"
-        self.nickName = userInfo?["nickname"]?.displayText ?? "Loading user info..."
-        self.avatar = userInfo?["avatar"]?.displayText ?? ""
+        self.nickName = userInfo?.nickname ?? "Loading user info..."
+        self.avatar = userInfo?.avatarBase64 ?? ""
     }
     
     func getDisplayImgs() -> [UIImage] {
