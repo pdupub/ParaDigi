@@ -66,6 +66,13 @@ class PostFeedViewModel: ObservableObject {
         
     }
     
+    func fetchDefaultPrivateKey(modelContext: ModelContext) -> String {
+        if let privKey = QuantumManager.getCurrentPivateKey() {
+            return privKey
+        }
+        return ""
+    }
+    
     func fetchDefaultUserInfo(modelContext: ModelContext) -> [String: QContent]?{
         guard let signer = QuantumManager.getCurrentSigner() else { return nil }
         return QuantumManager.getUserInfo(signer:signer, modelContext: modelContext)

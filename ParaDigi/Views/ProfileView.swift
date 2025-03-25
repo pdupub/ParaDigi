@@ -91,17 +91,15 @@ struct ProfileView: View {
                         }
                     }
                     
-                    // 静音（带箭头）
+                    //
                     NavigationLink {
-                        Text("Mute Settings Page") // 静音设置页面 -> Mute Settings Page
+                        ReloadPrivateKeyView(privateKey: viewModel.fetchDefaultPrivateKey(modelContext: modelContext))
                     } label: {
                         HStack {
-                            Image(systemName: "microphone.slash.fill")
+                            Image(systemName: "key")
                                 .foregroundColor(.cyan)
-                            Text("Mute") // 静音 -> Mute
+                            Text("Private Key")
                             Spacer()
-                            Text("Off") // 已关闭 -> Off
-                                .foregroundColor(.gray)
                         }
                     }
                 }

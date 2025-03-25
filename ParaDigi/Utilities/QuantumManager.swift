@@ -56,6 +56,11 @@ class QuantumManager {
         return displayImages
     }
     
+    static func getCurrentPivateKey() -> String? {
+        guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
+        return privateKeyData.map { String(format: "%02x", $0) }.joined()
+    }
+    
     static func getCurrentSigner() -> String? {
         guard let privateKeyData = KeychainHelper.load(key: Constants.defaultPrivateKey) else { return nil }
         let publicKey = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
