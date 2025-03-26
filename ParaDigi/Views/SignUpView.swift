@@ -65,45 +65,50 @@ struct SignUpView: View {
             
             Section {
                 // 显示地址
-                HStack {
-                    Text("Address: \(viewModel.address ?? "building...")")
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                    
-                    // 拷贝地址按钮
-                    Button(action: viewModel.copyAddressToClipboard) {
-                        Image(systemName: viewModel.isCopiedAddress ? "checkmark.circle.fill" : "doc.on.clipboard.fill")
+                VStack(alignment: .leading) {
+                    Text("Address")
+                    HStack {
+                        Text(verbatim: "\(viewModel.address ?? "building...")")
                             .foregroundColor(.gray)
-                            .padding(.leading)
+                            .font(.footnote)
+                            .lineLimit(nil) // 允许换行
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading) // 保证尽量在第一行完整显示
+                            
+                        // 拷贝地址按钮
+                        Button(action: viewModel.copyAddressToClipboard) {
+                            Image(systemName: viewModel.isCopiedAddress ? "checkmark.circle.fill" : "doc.on.clipboard.fill")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.gray)
+                                .padding(.leading)
+                        }
                     }
                 }
-                .onAppear {
-                    // 当视图出现时，自动使 TextEditor 获取焦点
-                    viewModel.setModelContext(modelContext: modelContext)
-                }
-//                .padding()
-                
                 // 显示私钥
-                HStack {
-                    Text("Private Key: \(viewModel.isPrivateKeyVisible ? viewModel.privateKey ?? "building..." : String(repeating: "*", count: viewModel.privateKey?.count ?? 0))")
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                    
-                    // 眼睛图标，切换私钥的可见性
-                    Button(action: { viewModel.isPrivateKeyVisible.toggle() }) {
-                        Image(systemName: viewModel.isPrivateKeyVisible ? "eye.fill" : "eye.slash.fill")
+                VStack(alignment: .leading) {
+                    Text("Private Key")
+                    HStack {
+       
+                        Text("\(viewModel.privateKey ?? "building...")")
                             .foregroundColor(.gray)
-                            .padding(.leading)
-                    }
-                    
-                    // 拷贝私钥按钮
-                    Button(action: viewModel.copyPrivateKeyToClipboard) {
-                        Image(systemName: viewModel.isCopiedPrivateKey ? "checkmark.circle.fill" : "doc.on.clipboard.fill")
-                            .foregroundColor(.gray)
-                            .padding(.leading)
+                            .font(.footnote)
+                            .lineLimit(nil) // 允许换行
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading) // 保证尽量在第一行完整显示
+                        
+                                                    
+                        // 拷贝私钥按钮
+                        Button(action: viewModel.copyPrivateKeyToClipboard) {
+                            Image(systemName: viewModel.isCopiedPrivateKey ? "checkmark.circle.fill" : "doc.on.clipboard.fill")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.gray)
+                                .padding(.leading)
+                        }
+                        
                     }
                 }
-//                .padding()
                 
             }  header: {
                 HStack{
@@ -185,6 +190,7 @@ struct SignUpView: View {
         .listStyle(.insetGrouped) // 模仿设置应用的列表样式
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
+            viewModel.setModelContext(modelContext: modelContext)
             viewModel.generateRandomImage()
             viewModel.generatePrivateKeyAndAddress()
         }

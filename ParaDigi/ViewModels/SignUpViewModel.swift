@@ -16,7 +16,6 @@ class SignUpViewModel: ObservableObject {
     @Published var keyValuePairs: [(key: String, value: String)] = [("nickname", ""),("", "")]
     @Published var errorMessages: [String] = []
     
-    @Published var isPrivateKeyVisible = false
     @Published var isCopiedAddress = false
     @Published var isCopiedPrivateKey = false
     
