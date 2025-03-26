@@ -110,18 +110,20 @@ struct SignInView: View {
                 
                 Section {
                     VStack {
-                        let attrs = viewModel.loginUserAttrs()
-                        ForEach(2..<attrs.count, id: \.self) { index in
-                            if index % 2 == 0 {
-                                HStack {
-                                    Text("\(attrs[index])")
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .padding(.horizontal)
-                                    Spacer()
-                                    Text("\(attrs[index+1])")
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .padding(.horizontal)
-
+                        if let _ = viewModel.loginUserInfo {
+                            let attrs = viewModel.loginUserAttrs()
+                            ForEach(2..<attrs.count, id: \.self) { index in
+                                if index % 2 == 0 {
+                                    HStack {
+                                        Text("\(attrs[index])")
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .padding(.horizontal)
+                                        Spacer()
+                                        Text("\(attrs[index+1])")
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .padding(.horizontal)
+                                        
+                                    }
                                 }
                             }
                         }
