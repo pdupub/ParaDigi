@@ -26,6 +26,6 @@ struct StdUser: Identifiable {
            let uiImage = UIImage(data: data) {
             return Image(uiImage: uiImage)
         }
-        return Image(systemName: "person.circle") // 默认头像
+        return Image(systemName: "person.fill")// 默认头像
     }
 }

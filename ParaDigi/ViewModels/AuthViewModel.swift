@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-class SignUpViewModel: ObservableObject {
+class AuthViewModel: ObservableObject {
     @Published var randomImage: UIImage?
     @Published var base64ImageString: String?
     @Published var privateKey: String?
@@ -20,8 +20,14 @@ class SignUpViewModel: ObservableObject {
     @Published var isCopiedPrivateKey = false
     
     @Published var isUserCreated: Bool = false
+    @Published var isUserUnlocked: Bool = false
+    
+    @Published var loginUserInfo: StdUser?
     
     private var modelContext: ModelContext? // 直接持有 modelContext
+    
+    
+    
     
     func setModelContext(modelContext: ModelContext) {
         self.modelContext = modelContext
@@ -61,7 +67,52 @@ class SignUpViewModel: ObservableObject {
     func addKeyValuePair() {
         keyValuePairs.append(("", ""))
     }
+    
+    func loginUserAttrs() -> [String]{
+        var attrs:[String] = []
+        if let user = loginUserInfo {
+            if !user.extra.isEmpty {
+                for (key, value) in user.extra {
+                    attrs.append(key)
+                    attrs.append(value.displayText)
+                }
+            }
+        }
+        return attrs
+    }
+    
+    func checkPrivateKey(_ privKey: String) {
+     
+        guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privKey) else {return}
 
+        
+        let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData)
+        address = CompatibleCrypto.generateAddress(publicKey: publicKeyData!)
+        
+        guard let addr = address else {return }
+        privateKey = privKey
+        loginUserInfo = QuantumManager.getUser(signer:addr, modelContext: modelContext)
+
+    }
+
+    func signin() {
+        // 保存private key
+        guard let privateKeyData = CompatibleCrypto.generatePrivateKey(fromString: privateKey!) else { return }
+        
+        guard let publicKeyData = CompatibleCrypto.generatePublicKey(privateKey: privateKeyData) else { return }
+        
+        let address = CompatibleCrypto.generateAddress(publicKey: publicKeyData)
+        
+        let kk = "ParaDigiAddr:\(address)"
+        _ = KeychainHelper.delete(key: kk)
+        _ = KeychainHelper.delete(key: Constants.defaultPrivateKey)
+        
+        if !KeychainHelper.save(key: kk, data: privateKeyData ) { return }
+        
+        if !KeychainHelper.save(key: Constants.defaultPrivateKey, data: privateKeyData) { return }
+        isUserUnlocked = true
+    }
+    
     // 创建用户的业务逻辑
     func createUser() {
         errorMessages.removeAll()  // 清空之前的错误信息

@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject private var viewModel = SignUpViewModel()
+    @StateObject private var viewModel = AuthViewModel()
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @AppStorage("isUserRegistered") private var isUserRegistered: Bool = false

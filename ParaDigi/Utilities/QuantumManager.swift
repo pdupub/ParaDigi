@@ -252,6 +252,9 @@ class QuantumManager {
 
         do {
             let quantums = try modelContext.fetch(descriptor)
+            if quantums.count == 0 {
+                return nil
+            }
             for quantum in quantums{
                 if let contents = quantum.unsignedQuantum.contents {
                     // 遍历每个 quantum 的 contents
