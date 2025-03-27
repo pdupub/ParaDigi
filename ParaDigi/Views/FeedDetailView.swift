@@ -32,9 +32,9 @@ struct FeedDetailView: View {
                     .font(.headline)
                 if viewModel.isImgExist() {
                     SelectedImageView(images: viewModel.getDisplayImgs())
+                        .aspectRatio(16/9, contentMode: .fit)
                         .cornerRadius(10)  // 设置圆角
-                        .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
-//                        .padding()
+                        .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)
                 }
                 
                 // 传递评论、转发、点赞和收藏数量

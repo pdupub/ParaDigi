@@ -18,21 +18,33 @@ struct PostFeedView: View {
                     if let user = viewModel.fetchDefaultUserInfo(modelContext: modelContext) {
                         AvatarView(avatarBase64: user.avatarBase64)
                     }
-                    ZStack(alignment: .topLeading) {
-                        
-                        TextEditor(text: $viewModel.textContent)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .focused($isFocused)
-                        if viewModel.textContent.isEmpty {
-                            Text("Enter your post here...")
-                                .foregroundColor(.gray)
-                                .padding(.top, 8)
-                                .padding(.leading, 8)
+                    
+                    VStack(alignment:.leading) {
+                        ZStack(alignment: .topLeading) {
+                            
+                            TextEditor(text: $viewModel.textContent)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .focused($isFocused)
+                            if viewModel.textContent.isEmpty {
+                                Text("Enter your post here...")
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 8)
+                                    .padding(.leading, 8)
+                            }
+                        }
+                        if selectedImages.count > 0 {
+                            // 显示选中的图片
+                            SelectedImageView(images: selectedImages)
+                                .aspectRatio(16/9, contentMode: .fill)
+                                .cornerRadius(10)  // 设置圆角
+                                .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
                         }
                     }
                 }
-                .padding()
+//                .padding()
                 
+
+                Spacer()
                 // 图片选择按钮
                 HStack {
                     Button(action: {
@@ -49,12 +61,6 @@ struct PostFeedView: View {
                     }
                 }
                 .padding(.top)
-                
-                // 显示选中的图片
-                SelectedImageView(images: selectedImages)
-                    .cornerRadius(10)  // 设置圆角
-                    .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 5)  // 添加阴影
-                Spacer()
             }
             .onAppear {
                 isFocused = true
